@@ -1,0 +1,4273 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دین آسان — Quran, Namaz &amp; Duain</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0B5A16">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @font-face{
+    font-family:'Uthman Taha Naskh';
+    font-weight:400;
+    src:url('https://cdn.jsdelivr.net/gh/mustafa0x/qpc-fonts@f93bf5f3/various-woff2/UthmanTN1%20Ver10.woff2') format('woff2');
+  }
+  @font-face{
+    font-family:'Uthman Taha Naskh';
+    font-weight:700;
+    src:url('https://cdn.jsdelivr.net/gh/mustafa0x/qpc-fonts@f93bf5f3/various-woff2/UthmanTN1B%20Ver10.woff2') format('woff2');
+  }
+</style>
+<style>
+  :root{
+    --emerald-950:#0A4A13;
+    --emerald-900:#0B5A16;
+    --emerald-700:#146B1F;
+    --emerald-600:#1D7D2A;
+    --gold-500:#C48A10;
+    --gold-300:#E3A11C;
+    --parchment:#FBF6EC;
+    --parchment-2:#F3EBDA;
+    --ink:#1C2321;
+    --ink-soft:#4B5751;
+    --line:#DED2B4;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--parchment);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{
+    max-width:820px;
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--parchment);
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* ---------- Header ---------- */
+  header.top{
+    background:linear-gradient(160deg,var(--emerald-950),var(--emerald-900) 70%);
+    color:var(--parchment);
+    padding:28px 24px 20px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.top::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(199,154,59,0.10) 0, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(199,154,59,0.10) 0, transparent 40%);
+    pointer-events:none;
+  }
+  .title-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    position:relative;
+  }
+  .app-title-ar{
+    font-family:'Uthman Taha Naskh', serif;
+    font-weight:700;
+    font-size:30px;
+    color:var(--gold-300);
+    line-height:1;
+  }
+  .app-title-en{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:15px;
+    color:rgba(251,246,236,0.75);
+    letter-spacing:0.02em;
+  }
+  .date-strip{
+    margin-top:14px;
+    font-size:12.5px;
+    color:rgba(251,246,236,0.65);
+    position:relative;
+  }
+
+  /* ---------- Bottom Nav ---------- */
+  nav.tabs{
+    display:flex;
+    background:var(--emerald-900);
+    position:fixed;
+    bottom:0;
+    left:0;right:0;
+    max-width:820px;
+    margin:0 auto;
+    z-index:20;
+    border-top:1px solid rgba(251,246,236,0.08);
+    box-shadow:0 -4px 16px rgba(0,0,0,0.15);
+  }
+  nav.tabs button{
+    flex:1;
+    background:none;
+    border:none;
+    color:rgba(251,246,236,0.55);
+    font-family:'Inter',sans-serif;
+    font-size:10.5px;
+    font-weight:600;
+    padding:9px 4px 8px;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    transition:color .2s ease;
+  }
+  nav.tabs button .icon{
+    font-size:19px;
+    line-height:1;
+  }
+  nav.tabs button .ur{
+    display:block;
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:13px;
+    font-weight:700;
+  }
+  nav.tabs button.active{
+    color:var(--gold-300);
+  }
+
+  main{
+    flex:1;
+    padding:20px 20px 84px;
+  }
+  section.view{display:none;}
+  section.view.active{display:block;}
+
+  /* ---------- Shared bits ---------- */
+  .section-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .section-head h2{
+    font-family:'Cormorant Garamond', serif;
+    font-size:24px;
+    font-weight:600;
+    margin:0;
+    color:var(--emerald-950);
+  }
+  .section-head .ur-h{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-weight:700;
+    font-size:21px;
+    color:var(--emerald-700);
+  }
+  .hint{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin:0 0 18px;
+    line-height:1.5;
+  }
+  .loading{
+    text-align:center;
+    padding:40px 10px;
+    color:var(--ink-soft);
+    font-size:14px;
+  }
+  .error-box{
+    background:#FBEAEA;
+    border:1px solid #E3B8B8;
+    color:#7A2B2B;
+    padding:14px 16px;
+    border-radius:6px;
+    font-size:13px;
+    line-height:1.6;
+  }
+
+  /* ---------- Quran: surah grid ---------- */
+  .surah-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .surah-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 14px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transition:border-color .15s ease, transform .1s ease;
+  }
+  .surah-card:hover{border-color:var(--gold-500);}
+  .surah-card:active{transform:scale(0.98);}
+  .surah-num{
+    width:30px;height:30px;
+    border-radius:50%;
+    border:1px solid var(--gold-500);
+    color:var(--emerald-700);
+    font-size:12px;
+    font-weight:600;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .surah-meta{min-width:0;}
+  .surah-en{
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .surah-sub{
+    font-size:11px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+  .surah-ar{
+    font-family:'Uthman Taha Naskh', serif;
+    font-weight:600;
+    font-size:20px;
+    color:var(--emerald-950);
+    margin-left:auto;
+  }
+
+  /* ---------- Quran: ayah detail ---------- */
+  .back-btn{
+    background:none;
+    border:none;
+    color:var(--emerald-700);
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    padding:0 0 14px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .audio-bar{
+    display:flex;
+    gap:8px;
+    margin-bottom:16px;
+    flex-wrap:wrap;
+  }
+  .audio-bar select{
+    flex:1;
+    min-width:160px;
+    padding:9px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    font-size:12.5px;
+    font-family:'Inter',sans-serif;
+    background:#fff;
+    color:var(--ink);
+  }
+  .audio-bar .btn{
+    flex:0 0 auto;
+    padding:9px 16px;
+    font-size:12.5px;
+  }
+  .audio-bar .btn.playing{
+    background:var(--gold-500);
+  }
+  .ayah-play-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:26px;height:26px;
+    border-radius:50%;
+    border:1px solid var(--gold-500);
+    background:#fff;
+    color:var(--emerald-700);
+    font-size:11px;
+    cursor:pointer;
+    margin-inline-start:8px;
+    vertical-align:middle;
+    padding:0;
+  }
+  .ayah-play-btn.playing{
+    background:var(--gold-500);
+    color:#fff;
+  }
+  .ayah.is-playing{
+    background:var(--parchment-2);
+    border-radius:8px;
+    padding-left:10px;
+    padding-right:10px;
+    margin-left:-10px;
+    margin-right:-10px;
+  }
+  .surah-banner{
+    background:linear-gradient(135deg,var(--emerald-900),var(--emerald-700));
+    color:var(--parchment);
+    border-radius:10px;
+    padding:20px;
+    text-align:center;
+    margin-bottom:18px;
+  }
+  .surah-banner .ar{
+    font-family:'Uthman Taha Naskh', serif;
+    font-weight:700;
+    font-size:30px;
+    color:var(--gold-300);
+  }
+  .surah-banner .en{
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic;
+    font-size:14px;
+    margin-top:4px;
+    color:rgba(251,246,236,0.8);
+  }
+  .surah-banner .info{
+    font-size:11px;
+    margin-top:8px;
+    color:rgba(251,246,236,0.6);
+    letter-spacing:0.03em;
+  }
+  .ayah{
+    border-bottom:1px solid var(--line);
+    padding:18px 0;
+  }
+  .ayah:first-of-type{padding-top:0;}
+  .ayah-num{
+    display:inline-block;
+    font-size:11px;
+    color:var(--emerald-700);
+    background:var(--parchment-2);
+    border:1px solid var(--gold-500);
+    border-radius:50%;
+    width:24px;height:24px;
+    line-height:22px;
+    text-align:center;
+    margin-bottom:10px;
+  }
+  .ayah-ar{
+    font-family:'Uthman Taha Naskh', serif;
+    font-weight:600;
+    font-size:29px;
+    line-height:2.5;
+    letter-spacing:0.01em;
+    text-align:right;
+    direction:rtl;
+    color:var(--ink);
+    margin-bottom:16px;
+  }
+  .ayah-ar.indopak-mode{
+    font-family:'Noto Naskh Arabic', serif;
+    font-size:28px;
+    line-height:2.6;
+  }
+  .ayah-ur{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-weight:600;
+    font-size:22px;
+    line-height:2.5;
+    text-align:right;
+    direction:rtl;
+    color:var(--emerald-900);
+    margin-bottom:10px;
+  }
+  .ayah-en{
+    font-size:14.5px;
+    line-height:1.8;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+
+  /* ---------- Namaz tab ---------- */
+  .namaz-form{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:18px;
+    margin-bottom:20px;
+  }
+  .field-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
+  }
+  .field{flex:1;display:flex;flex-direction:column;gap:4px;}
+  .field label{font-size:11.5px;color:var(--ink-soft);font-weight:600;}
+  .field input, .field select{
+    padding:10px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    font-size:14px;
+    font-family:'Inter',sans-serif;
+    background:var(--parchment);
+    color:var(--ink);
+  }
+  .btn-row{display:flex;gap:10px;margin-top:6px;}
+  .btn{
+    flex:1;
+    padding:11px 14px;
+    border-radius:6px;
+    border:none;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    font-family:'Inter',sans-serif;
+  }
+  .btn-primary{background:var(--emerald-700);color:#fff;}
+  .btn-primary:hover{background:var(--emerald-900);}
+  .btn-ghost{background:none;border:1px solid var(--gold-500);color:var(--emerald-900);}
+  .btn-ghost:hover{background:var(--parchment-2);}
+
+  .timings-card{
+    background:linear-gradient(135deg,var(--emerald-900),var(--emerald-700));
+    border-radius:12px;
+    color:var(--parchment);
+    padding:22px 20px;
+  }
+  .timings-loc{
+    font-size:14px;
+    font-weight:600;
+    margin-bottom:2px;
+  }
+  .timings-date{
+    font-size:11.5px;
+    color:rgba(251,246,236,0.65);
+    margin-bottom:18px;
+  }
+  .timings-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:12px;
+  }
+  .timing-item{
+    background:rgba(251,246,236,0.08);
+    border:1px solid rgba(251,246,236,0.15);
+    border-radius:8px;
+    padding:12px 8px;
+    text-align:center;
+  }
+  .timing-item .p-ur{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:17px;
+    color:var(--gold-300);
+  }
+  .timing-item .p-en{
+    font-size:10px;
+    color:rgba(251,246,236,0.6);
+    margin-top:1px;
+    letter-spacing:0.03em;
+  }
+  .timing-item .p-time{
+    font-size:16px;
+    font-weight:700;
+    margin-top:6px;
+    font-variant-numeric:tabular-nums;
+  }
+
+  /* ---------- Duas tab ---------- */
+  .dua-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    margin-bottom:12px;
+    overflow:hidden;
+  }
+  .dua-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 16px;
+    cursor:pointer;
+  }
+  .dua-titles .en{font-size:13.5px;font-weight:600;color:var(--ink);}
+  .dua-titles .ur{font-family:'Noto Nastaliq Urdu', serif;font-weight:700;font-size:18px;color:var(--emerald-700);margin-top:3px;}
+  .dua-chevron{
+    color:var(--gold-500);
+    font-size:14px;
+    transition:transform .2s ease;
+    flex-shrink:0;
+    margin-left:10px;
+  }
+  .dua-card.open .dua-chevron{transform:rotate(180deg);}
+  .dua-body{
+    display:none;
+    padding:0 16px 18px;
+    border-top:1px solid var(--line);
+  }
+  .dua-card.open .dua-body{display:block;padding-top:14px;}
+  .dua-ar{
+    font-family:'Uthman Taha Naskh', serif;
+    font-weight:600;
+    font-size:25px;
+    line-height:2.3;
+    text-align:right;
+    direction:rtl;
+    color:var(--ink);
+    margin-bottom:14px;
+  }
+  .dua-translit{
+    font-size:12px;
+    font-style:italic;
+    color:var(--ink-soft);
+    margin-bottom:12px;
+    line-height:1.6;
+  }
+  .dua-ur-tr{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-weight:600;
+    font-size:19px;
+    text-align:right;
+    direction:rtl;
+    color:var(--emerald-900);
+    margin-bottom:12px;
+    line-height:2.3;
+  }
+  .listen-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:var(--parchment-2);
+    border:1px solid var(--gold-500);
+    color:var(--emerald-700);
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    font-weight:600;
+    padding:7px 14px;
+    border-radius:20px;
+    cursor:pointer;
+    margin-bottom:12px;
+  }
+  .listen-btn.speaking{
+    background:var(--gold-500);
+    color:#fff;
+  }
+
+  .dua-en-tr{
+    font-size:13px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+  .dua-ref{
+    font-size:10.5px;
+    color:var(--gold-500);
+    margin-top:10px;
+    font-weight:600;
+  }
+
+  /* ---------- Home tab ---------- */
+  .home-greeting{
+    text-align:center;
+    padding:10px 0 18px;
+  }
+  .home-greeting .hg-ar{
+    font-family:'Uthman Taha Naskh', serif;
+    font-size:26px;
+    color:var(--emerald-900);
+  }
+  .home-greeting .hg-sub{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:4px;
+  }
+  .home-next-prayer{
+    background:linear-gradient(135deg,var(--emerald-900),var(--emerald-700));
+    border-radius:12px;
+    color:var(--parchment);
+    padding:18px;
+    text-align:center;
+    margin-bottom:18px;
+  }
+  .home-next-prayer .hnp-label{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:16px;
+  }
+  .home-next-prayer .hnp-name{
+    font-size:12px;
+    color:rgba(251,246,236,0.7);
+    letter-spacing:0.05em;
+    margin-bottom:4px;
+  }
+  .home-next-prayer .hnp-time{
+    font-size:26px;
+    font-weight:700;
+  }
+  .quick-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+  }
+  .quick-tile{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 4px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    cursor:pointer;
+  }
+  .quick-tile .qt-icon{font-size:22px;}
+  .quick-tile .qt-en{font-size:10.5px;font-weight:600;color:var(--ink);}
+  .quick-tile .qt-ur{font-family:'Noto Nastaliq Urdu', serif;font-size:13px;color:var(--emerald-700);}
+  .asma-card{
+    background:linear-gradient(135deg,var(--emerald-700),var(--emerald-950));
+    border-radius:12px;
+    padding:20px;
+    text-align:center;
+    color:var(--parchment);
+  }
+  .asma-card .asma-ar{
+    font-family:'Uthman Taha Naskh', serif;
+    font-size:30px;
+    color:var(--gold-300);
+    margin-bottom:6px;
+  }
+  .asma-card .asma-en{font-size:14px;font-weight:600;}
+  .asma-card .asma-ur{font-family:'Noto Nastaliq Urdu', serif;font-size:16px;color:rgba(251,246,236,0.85);margin-top:4px;}
+
+  /* ---------- More tab ---------- */
+  .more-list{display:flex;flex-direction:column;gap:10px;}
+  .more-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:14px;
+    cursor:pointer;
+  }
+  .mi-arrow{color:var(--gold-500);font-size:16px;}
+  .more-item.disabled{opacity:0.6;}
+  .mi-icon{font-size:20px;}
+  .mi-text{flex:1;}
+  .mi-en{font-size:13px;font-weight:600;color:var(--ink);}
+  .mi-ur{font-family:'Noto Nastaliq Urdu', serif;font-size:14px;color:var(--emerald-700);}
+  .mi-soon{font-size:10px;color:var(--ink-soft);font-style:italic;}
+
+  /* ---------- Tasbeeh ---------- */
+  .tsb-subtabs{
+    display:flex;
+    gap:8px;
+    margin-bottom:16px;
+    border-bottom:1px solid var(--line);
+  }
+  .tsb-subtab{
+    flex:1;
+    background:none;
+    border:none;
+    padding:10px 4px 12px;
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ink-soft);
+    cursor:pointer;
+    border-bottom:2px solid transparent;
+  }
+  .tsb-subtab .ur{
+    display:block;
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:14px;
+    margin-top:2px;
+  }
+  .tsb-subtab.active{
+    color:var(--emerald-700);
+    border-bottom-color:var(--gold-500);
+  }
+  .tsb-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .tsb-card .tsb-cat{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:14px;
+    color:var(--ink-soft);
+    text-align:right;
+    direction:rtl;
+    margin-bottom:6px;
+  }
+  .tsb-card .tsb-ar{
+    font-family:'Uthman Taha Naskh', serif;
+    font-size:22px;
+    line-height:1.9;
+    text-align:right;
+    direction:rtl;
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .tsb-card .tsb-ur{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:15px;
+    text-align:right;
+    direction:rtl;
+    color:var(--emerald-900);
+    margin-bottom:10px;
+    line-height:1.8;
+  }
+  .tsb-card-actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .tsb-add-btn{
+    width:30px;height:30px;
+    border-radius:50%;
+    border:1px solid var(--gold-500);
+    background:#fff;
+    color:var(--emerald-700);
+    font-size:16px;
+    cursor:pointer;
+  }
+  .tsb-count-badge{
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+  .tsb-mine-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    cursor:pointer;
+  }
+  .tsb-mine-card .tmc-text{flex:1;min-width:0;}
+  .tsb-mine-card .tmc-ar{
+    font-family:'Uthman Taha Naskh', serif;
+    font-size:18px;
+    text-align:right;
+    direction:rtl;
+    color:var(--ink);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .tsb-mine-card .tmc-count{
+    font-size:18px;
+    font-weight:700;
+    color:var(--emerald-700);
+    background:var(--parchment-2);
+    border-radius:8px;
+    padding:6px 12px;
+  }
+  .tsb-mine-card .tmc-remove{
+    background:none;
+    border:none;
+    color:#B33;
+    font-size:16px;
+    cursor:pointer;
+    padding:4px 6px;
+  }
+  .counter-card{
+    background:linear-gradient(160deg,var(--emerald-900),var(--emerald-700));
+    border-radius:16px;
+    padding:28px 20px 32px;
+    text-align:center;
+    color:var(--parchment);
+  }
+  .counter-ar{
+    font-family:'Uthman Taha Naskh', serif;
+    font-size:26px;
+    color:var(--gold-300);
+    margin-bottom:8px;
+  }
+  .counter-ur{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:16px;
+    color:rgba(251,246,236,0.8);
+    margin-bottom:24px;
+  }
+  .counter-number{
+    font-size:56px;
+    font-weight:700;
+    font-variant-numeric:tabular-nums;
+    margin-bottom:22px;
+  }
+  .counter-tap{
+    width:150px;height:150px;
+    border-radius:50%;
+    border:3px solid var(--gold-500);
+    background:rgba(251,246,236,0.08);
+    color:var(--gold-300);
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:22px;
+    font-weight:700;
+    cursor:pointer;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    -webkit-tap-highlight-color:transparent;
+    user-select:none;
+  }
+  .counter-tap:active{
+    background:rgba(251,246,236,0.18);
+    transform:scale(0.97);
+  }
+  .counter-actions{margin-top:22px;}
+  .counter-actions .btn{display:inline-block;flex:none;padding:10px 22px;}
+
+  /* ---------- Qibla ---------- */
+  .qibla-info{
+    background:linear-gradient(135deg,var(--emerald-900),var(--emerald-700));
+    border-radius:12px;
+    padding:16px;
+    text-align:center;
+    color:var(--parchment);
+    margin-bottom:20px;
+    font-size:13px;
+    line-height:1.8;
+  }
+  .qibla-info b{color:var(--gold-300);font-size:15px;}
+  .compass-wrap{
+    display:flex;
+    justify-content:center;
+    margin:10px 0;
+  }
+  .compass-frame{
+    position:relative;
+    width:260px;
+    height:260px;
+    border-radius:50%;
+    background:#fff;
+    border:3px solid var(--gold-500);
+    box-shadow:0 6px 20px rgba(11,90,22,0.15);
+  }
+  .compass-rose{
+    position:absolute;
+    inset:0;
+    transition:transform 0.15s ease-out;
+  }
+  .compass-rose span{
+    position:absolute;
+    font-size:13px;
+    font-weight:700;
+    color:var(--emerald-900);
+  }
+  .cr-n{top:10px;left:50%;transform:translateX(-50%);color:var(--gold-500) !important;}
+  .cr-e{right:10px;top:50%;transform:translateY(-50%);}
+  .cr-s{bottom:10px;left:50%;transform:translateX(-50%);}
+  .cr-w{left:10px;top:50%;transform:translateY(-50%);}
+  .qibla-arrow{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:100%;
+    height:100%;
+    transform-origin:center;
+    display:flex;
+    justify-content:center;
+    transform:translate(-50%,-50%);
+  }
+  .qibla-arrow::before{
+    content:'';
+    position:absolute;
+    top:14px;
+    left:50%;
+    width:4px;
+    height:38%;
+    background:linear-gradient(var(--gold-500), transparent);
+    transform:translateX(-50%);
+    border-radius:4px;
+  }
+  .qibla-arrow{
+    font-size:26px;
+    padding-top:2px;
+  }
+  .compass-center-dot{
+    position:absolute;
+    top:50%;left:50%;
+    width:10px;height:10px;
+    background:var(--emerald-900);
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+  }
+
+  /* ---------- Hijri Calendar ---------- */
+  .hijri-nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .hijri-nav-btn{
+    width:36px;height:36px;
+    border-radius:50%;
+    border:1px solid var(--gold-500);
+    background:#fff;
+    color:var(--emerald-700);
+    font-size:16px;
+    cursor:pointer;
+    flex-shrink:0;
+  }
+  .hijri-nav-title{text-align:center;}
+  .hnt-hijri{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-weight:700;
+    font-size:19px;
+    color:var(--emerald-900);
+  }
+  .hnt-greg{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+  .hijri-weekdays{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    text-align:center;
+    margin-bottom:6px;
+  }
+  .hijri-weekdays span{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .hijri-grid{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:4px;
+  }
+  .hijri-day{
+    aspect-ratio:1;
+    border-radius:8px;
+    background:#fff;
+    border:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+  }
+  .hijri-day.empty{background:none;border:none;}
+  .hijri-day .hd-hijri{
+    font-size:15px;
+    font-weight:700;
+    color:var(--emerald-900);
+  }
+  .hijri-day .hd-greg{
+    font-size:9px;
+    color:var(--ink-soft);
+    margin-top:1px;
+  }
+  .hijri-day.is-today{
+    background:var(--emerald-700);
+    border-color:var(--emerald-700);
+  }
+  .hijri-day.is-today .hd-hijri, .hijri-day.is-today .hd-greg{color:var(--parchment);}
+  .hijri-day.is-event{border-color:var(--gold-500);border-width:2px;}
+  .hijri-day .hd-event-name{
+    position:absolute;
+    bottom:2px;
+    font-size:7px;
+    color:var(--gold-500);
+    font-weight:700;
+  }
+  .hijri-day.is-today .hd-event-name{color:var(--gold-300);}
+  .hijri-legend{
+    display:flex;
+    gap:18px;
+    justify-content:center;
+    margin-top:16px;
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+  .hijri-legend .dot{
+    display:inline-block;
+    width:9px;height:9px;
+    border-radius:50%;
+    margin-right:4px;
+  }
+  .dot-today{background:var(--emerald-700);}
+  .dot-event{background:var(--gold-500);}
+
+  /* ---------- Zakat ---------- */
+  .zakat-result-card{
+    background:linear-gradient(160deg,var(--emerald-900),var(--emerald-700));
+    border-radius:14px;
+    padding:22px;
+    color:var(--parchment);
+    margin-top:18px;
+    text-align:center;
+  }
+  .zakat-result-card .zr-label{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:16px;
+    color:rgba(251,246,236,0.8);
+  }
+  .zakat-result-card .zr-amount{
+    font-size:34px;
+    font-weight:700;
+    color:var(--gold-300);
+    margin:8px 0;
+  }
+  .zakat-result-card .zr-note{
+    font-size:12px;
+    color:rgba(251,246,236,0.7);
+    line-height:1.7;
+  }
+  .zakat-breakdown{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-top:14px;
+    font-size:12.5px;
+  }
+  .zakat-breakdown .zb-row{
+    display:flex;
+    justify-content:space-between;
+    padding:6px 0;
+    border-bottom:1px solid var(--parchment-2);
+  }
+  .zakat-breakdown .zb-row:last-child{border-bottom:none;font-weight:700;color:var(--emerald-900);}
+
+  /* ---------- Qaza Tracker ---------- */
+  .qaza-list{display:flex;flex-direction:column;gap:10px;}
+  .qaza-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+  }
+  .qaza-row .qr-name{flex:1;}
+  .qaza-row .qr-en{font-size:13.5px;font-weight:600;color:var(--ink);}
+  .qaza-row .qr-ur{font-family:'Noto Nastaliq Urdu', serif;font-size:15px;color:var(--emerald-700);}
+  .qaza-row .qr-count{
+    font-size:20px;
+    font-weight:700;
+    color:var(--emerald-900);
+    min-width:36px;
+    text-align:center;
+  }
+  .qaza-btn{
+    width:34px;height:34px;
+    border-radius:50%;
+    border:1px solid var(--gold-500);
+    background:var(--parchment-2);
+    color:var(--emerald-700);
+    font-size:18px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .qaza-btn.minus{color:#B33;}
+  .qaza-total{
+    background:linear-gradient(135deg,var(--emerald-900),var(--emerald-700));
+    border-radius:12px;
+    padding:18px;
+    text-align:center;
+    color:var(--parchment);
+    margin-top:18px;
+  }
+  .qaza-total .qt-num{font-size:32px;font-weight:700;color:var(--gold-300);}
+  .qaza-total .qt-label{font-family:'Noto Nastaliq Urdu', serif;font-size:15px;margin-top:4px;}
+
+  /* ---------- Local Masjid Times ---------- */
+  .masjid-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:16px;
+    margin-bottom:12px;
+  }
+  .masjid-card .mc-name{font-size:14.5px;font-weight:700;color:var(--emerald-900);}
+  .masjid-card .mc-city{font-size:11.5px;color:var(--ink-soft);margin-top:2px;margin-bottom:10px;}
+  .masjid-times-row{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:6px;
+  }
+  .masjid-times-row .mt-item{
+    text-align:center;
+    background:var(--parchment-2);
+    border-radius:6px;
+    padding:6px 2px;
+  }
+  .masjid-times-row .mt-name{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:11px;
+    color:var(--emerald-700);
+  }
+  .masjid-times-row .mt-time{
+    font-size:10px;
+    font-weight:700;
+    color:var(--ink);
+    margin-top:2px;
+  }
+  .masjid-notice{
+    background:#FBF3E0;
+    border:1px solid var(--gold-500);
+    color:#6B5220;
+    padding:12px 14px;
+    border-radius:8px;
+    font-size:12.5px;
+    line-height:1.6;
+  }
+
+  /* ---------- Group Khatm Tracker ---------- */
+  .khatm-my-group-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    cursor:pointer;
+  }
+  .khatm-my-group-card .kmg-name{flex:1;font-size:14px;font-weight:600;color:var(--ink);}
+  .khatm-my-group-card .kmg-progress{font-size:12px;color:var(--emerald-700);font-weight:700;}
+  .khatm-group-card{
+    background:linear-gradient(160deg,var(--emerald-900),var(--emerald-700));
+    border-radius:14px;
+    padding:20px;
+    color:var(--parchment);
+    margin-bottom:18px;
+  }
+  .khatm-group-card .kg-name{font-size:18px;font-weight:700;color:var(--gold-300);}
+  .khatm-group-card .kg-code{font-size:12px;color:rgba(251,246,236,0.8);margin-top:6px;}
+  .khatm-share-btn{
+    background:none;
+    border:1px solid var(--gold-500);
+    color:var(--gold-300);
+    font-size:10.5px;
+    padding:3px 10px;
+    border-radius:12px;
+    margin-left:8px;
+    cursor:pointer;
+  }
+  .kg-progress-bar{
+    background:rgba(251,246,236,0.15);
+    border-radius:8px;
+    height:10px;
+    margin-top:14px;
+    overflow:hidden;
+  }
+  .kg-progress-fill{
+    background:var(--gold-500);
+    height:100%;
+    border-radius:8px;
+    transition:width 0.3s ease;
+  }
+  .kg-progress-text{font-size:11.5px;margin-top:6px;color:rgba(251,246,236,0.85);}
+  .khatm-para-grid{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:8px;
+  }
+  .khatm-para-tile{
+    aspect-ratio:1;
+    border-radius:10px;
+    background:#fff;
+    border:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+    font-weight:700;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .khatm-para-tile.done{
+    background:var(--emerald-700);
+    border-color:var(--emerald-700);
+    color:#fff;
+  }
+
+  /* ---------- Dil ki Kaifiyat (Mood) ---------- */
+  .mood-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+  .mood-tile{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:18px 10px;
+    text-align:center;
+    cursor:pointer;
+  }
+  .mood-tile .mt-emoji{font-size:26px;}
+  .mood-tile .mt-en{font-size:12px;font-weight:600;color:var(--ink);margin-top:6px;}
+  .mood-tile .mt-ur{font-family:'Noto Nastaliq Urdu', serif;font-size:15px;color:var(--emerald-700);margin-top:2px;}
+  .mood-result-card{
+    background:linear-gradient(160deg,var(--emerald-900),var(--emerald-700));
+    border-radius:16px;
+    padding:24px 20px;
+    color:var(--parchment);
+  }
+  .mood-result-card .mr-ar{
+    font-family:'Uthman Taha Naskh', serif;
+    font-size:26px;
+    line-height:2.1;
+    text-align:right;
+    direction:rtl;
+    color:var(--gold-300);
+    margin-bottom:14px;
+  }
+  .mood-result-card .mr-ur{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:16px;
+    text-align:right;
+    direction:rtl;
+    color:rgba(251,246,236,0.9);
+    margin-bottom:14px;
+    line-height:1.9;
+  }
+  .mood-result-card .mr-note{
+    font-size:13px;
+    line-height:1.8;
+    color:rgba(251,246,236,0.85);
+    border-top:1px solid rgba(251,246,236,0.2);
+    padding-top:14px;
+    margin-top:6px;
+  }
+  .mood-result-card .mr-ref{
+    font-size:10.5px;
+    color:var(--gold-300);
+    margin-top:12px;
+    font-weight:600;
+  }
+
+  /* ---------- Nazra ---------- */
+  .nazra-progress-bar{
+    background:var(--parchment-2);
+    border-radius:8px;
+    height:10px;
+    margin-bottom:6px;
+    overflow:hidden;
+  }
+  .nazra-progress-fill{
+    background:var(--emerald-700);
+    height:100%;
+    border-radius:8px;
+    transition:width 0.3s ease;
+  }
+  .nazra-progress-text{font-size:11.5px;color:var(--ink-soft);margin-bottom:16px;}
+  .nazra-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+  }
+  .nazra-tile{
+    aspect-ratio:1;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    position:relative;
+  }
+  .nazra-tile .nz-letter{
+    font-family:'Uthman Taha Naskh', serif;
+    font-size:30px;
+    color:var(--ink);
+  }
+  .nazra-tile .nz-name{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:11px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+  .nazra-tile.learned{background:var(--parchment-2);border-color:var(--emerald-700);}
+  .nazra-tile .nz-check{
+    position:absolute;
+    top:4px;right:4px;
+    width:18px;height:18px;
+    border-radius:50%;
+    border:1px solid var(--gold-500);
+    background:#fff;
+    font-size:11px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--emerald-700);
+  }
+  .nazra-tile.learned .nz-check{background:var(--emerald-700);color:#fff;}
+
+  /* ---------- Parent Dashboard ---------- */
+  .parent-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .parent-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:16px;
+    text-align:center;
+  }
+  .parent-card .pc-icon{font-size:22px;}
+  .parent-card .pc-num{font-size:24px;font-weight:700;color:var(--emerald-900);margin-top:6px;}
+  .parent-card .pc-label{font-family:'Noto Nastaliq Urdu', serif;font-size:13px;color:var(--ink-soft);margin-top:2px;}
+
+  /* ---------- Bedtime Stories ---------- */
+  .story-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:10px;
+    cursor:pointer;
+  }
+  .story-card .sc-emoji{font-size:26px;}
+  .story-card .sc-text{flex:1;}
+  .story-card .sc-title{font-size:14px;font-weight:600;color:var(--ink);}
+  .story-card .sc-sub{font-family:'Noto Nastaliq Urdu', serif;font-size:13px;color:var(--emerald-700);}
+  .story-detail-card{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:20px;
+  }
+  .story-detail-card .sd-title{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-weight:700;
+    font-size:20px;
+    color:var(--emerald-900);
+    text-align:center;
+    margin-bottom:14px;
+  }
+  .story-detail-card .sd-text{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-size:16px;
+    line-height:2.1;
+    text-align:right;
+    direction:rtl;
+    color:var(--ink);
+  }
+
+  /* ---------- Deen Streak ---------- */
+  .streak-card{
+    background:linear-gradient(160deg,var(--emerald-900),var(--emerald-700));
+    border-radius:16px;
+    padding:28px;
+    text-align:center;
+    color:var(--parchment);
+  }
+  .streak-flame{font-size:40px;}
+  .streak-num{font-size:44px;font-weight:700;color:var(--gold-300);margin-top:4px;}
+  .streak-label{font-family:'Noto Nastaliq Urdu', serif;font-size:15px;margin-top:2px;}
+  .streak-best{font-size:11.5px;color:rgba(251,246,236,0.75);margin-top:10px;}
+  .streak-week{
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:6px;
+    margin-top:16px;
+  }
+  .streak-day{
+    aspect-ratio:1;
+    border-radius:8px;
+    background:#fff;
+    border:1px solid var(--line);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    color:var(--ink-soft);
+  }
+  .streak-day.done{background:var(--gold-500);border-color:var(--gold-500);color:#fff;}
+
+  footer.foot{
+    text-align:center;
+    font-size:11px;
+    color:var(--ink-soft);
+    padding:18px;
+    border-top:1px solid var(--line);
+  }
+
+  @media (max-width:420px){
+    .surah-grid{grid-template-columns:1fr;}
+    .field-row{flex-direction:column;}
+    .timings-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
+<!-- Firebase — used only for the "Local Masjid Times" community feature.
+     Replace FIREBASE_CONFIG below with your own project's config from the
+     Firebase Console (Project Settings > General > Your apps). Nothing else
+     in the app needs Firebase; if this isn't configured, that one screen
+     will simply show a friendly "not set up yet" message. -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script>
+  const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyBxvRF4HjvkrooiEZBQqvV7NHwXpZSp_bU",
+    authDomain: "deen-aasan.firebaseapp.com",
+    projectId: "deen-aasan",
+    storageBucket: "deen-aasan.firebasestorage.app",
+    messagingSenderId: "479154999212",
+    appId: "1:479154999212:web:5eba19fd8b15b4487d3409",
+  };
+  let firebaseDb = null;
+  if(FIREBASE_CONFIG.apiKey){
+    firebase.initializeApp(FIREBASE_CONFIG);
+    firebaseDb = firebase.firestore();
+  }
+</script>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="title-row">
+      <div>
+        <div class="app-title-ar">دین آسان</div>
+        <div class="app-title-en">Deen Aasan — Quran, Namaz, Duain</div>
+      </div>
+    </div>
+    <div class="date-strip" id="gregorianDate"></div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="home"><span class="icon">🏠</span>Home<span class="ur">ہوم</span></button>
+    <button class="tab-btn" data-tab="quran"><span class="icon">📖</span>Quran<span class="ur">قرآن</span></button>
+    <button class="tab-btn" data-tab="namaz"><span class="icon">🕌</span>Namaz<span class="ur">نماز</span></button>
+    <button class="tab-btn" data-tab="duas"><span class="icon">🤲</span>Duas<span class="ur">دعائیں</span></button>
+    <button class="tab-btn" data-tab="more"><span class="icon">⋯</span>More<span class="ur">مزید</span></button>
+  </nav>
+
+  <main>
+
+    <!-- ===================== HOME TAB ===================== -->
+    <section class="view active" id="view-home">
+      <div class="home-greeting">
+        <div class="hg-ar" id="homeGreetingAr">السَّلَامُ عَلَيْكُمْ</div>
+        <div class="hg-sub" id="homeGreetingDate"></div>
+      </div>
+
+      <div class="home-next-prayer" id="homeNextPrayerCard">
+        <div class="hnp-label">اگلی نماز کا وقت جاننے کے لیے لوکیشن سیٹ کریں</div>
+        <button class="btn btn-primary" id="homeSetLocationBtn" style="margin-top:10px;">نماز کے اوقات دیکھیں</button>
+      </div>
+
+      <div class="quick-grid">
+        <button class="quick-tile" data-goto="quran">
+          <span class="qt-icon">📖</span>
+          <span class="qt-en">Quran</span>
+          <span class="qt-ur">قرآن</span>
+        </button>
+        <button class="quick-tile" data-goto="namaz">
+          <span class="qt-icon">🕌</span>
+          <span class="qt-en">Namaz</span>
+          <span class="qt-ur">نماز</span>
+        </button>
+        <button class="quick-tile" data-goto="duas">
+          <span class="qt-icon">🤲</span>
+          <span class="qt-en">Duas</span>
+          <span class="qt-ur">دعائیں</span>
+        </button>
+        <button class="quick-tile" data-goto="more">
+          <span class="qt-icon">⋯</span>
+          <span class="qt-en">More</span>
+          <span class="qt-ur">مزید</span>
+        </button>
+      </div>
+
+      <div class="section-head" style="margin-top:22px;">
+        <h2>Name of Allah — Today</h2>
+        <span class="ur-h">اسمِ الہیٰ</span>
+      </div>
+      <div class="asma-card" id="asmaCard"></div>
+    </section>
+
+    <!-- ===================== QURAN TAB ===================== -->
+    <section class="view" id="view-quran">
+
+      <div id="surahListWrap">
+        <div class="section-head">
+          <h2>Surahs</h2>
+          <span class="ur-h">سورتیں</span>
+        </div>
+        <p class="hint">Kisi bhi surah par tap karein — Arabic text, Urdu aur English tarjuma sath dikhega.</p>
+        <div id="surahGrid" class="loading">سورتیں لوڈ ہو رہی ہیں... Loading surahs…</div>
+      </div>
+
+      <div id="surahDetailWrap" style="display:none;">
+        <button class="back-btn" id="backToSurahs">&#8592; تمام سورتیں (All Surahs)</button>
+        <div class="audio-bar">
+          <select id="scriptSelect">
+            <option value="uthmani">رسم عثمانی — Arabic (Madani)</option>
+            <option value="indopak">سادہ — IndoPak</option>
+          </select>
+        </div>
+        <div class="audio-bar">
+          <select id="reciterSelect">
+            <option value="ar.alafasy">مشاری راشد العفاسی — Mishary Alafasy</option>
+            <option value="ar.abdulbasitmurattal">عبد الباسط — Abdul Basit</option>
+            <option value="ar.husary">محمود خلیل الحصری — Al-Husary</option>
+            <option value="ar.abdurrahmaansudais">عبدالرحمن السدیس — As-Sudais</option>
+          </select>
+          <button class="btn btn-primary" id="playSurahBtn">▶ پوری سورت سنیں</button>
+        </div>
+        <div id="surahBanner"></div>
+        <div id="ayahsList" class="loading">لوڈ ہو رہا ہے...</div>
+      </div>
+
+    </section>
+
+    <!-- ===================== NAMAZ TAB ===================== -->
+    <section class="view" id="view-namaz">
+      <div class="section-head">
+        <h2>Prayer Times</h2>
+        <span class="ur-h">نماز کے اوقات</span>
+      </div>
+      <p class="hint">Duniya ke kisi bhi mulk aur shehar ka naam likhein, ya "میری لوکیشن" button se automatic waqt maloom karein.</p>
+
+      <div class="namaz-form">
+        <div class="field-row">
+          <div class="field">
+            <label>City / شہر</label>
+            <input type="text" id="cityInput" placeholder="e.g. Rawalpindi, Lahore, Karachi, London...">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Country / ملک</label>
+            <select id="countrySelect">
+              <option value="">— Select Country (or type below) —</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Country (agar list mein nahi hai) / Type manually</label>
+            <input type="text" id="countryInputManual" placeholder="e.g. Pakistan, Saudi Arabia, USA...">
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="getTimingsBtn">اوقات معلوم کریں (Get Timings)</button>
+          <button class="btn btn-ghost" id="useLocationBtn">📍 میری لوکیشن</button>
+        </div>
+      </div>
+
+      <div id="timingsResult"></div>
+    </section>
+
+    <!-- ===================== DUAS TAB ===================== -->
+    <section class="view" id="view-duas">
+      <div class="section-head">
+        <h2>Daily Duas</h2>
+        <span class="ur-h">روزانہ کی دعائیں</span>
+      </div>
+      <p class="hint">Kisi bhi dua par tap karein — Arabic, talaffuz (transliteration), Urdu aur English tarjuma khulega.</p>
+      <div id="duasList"></div>
+    </section>
+
+    <!-- ===================== MORE TAB ===================== -->
+    <section class="view" id="view-more">
+      <div class="section-head">
+        <h2>More</h2>
+        <span class="ur-h">مزید</span>
+      </div>
+      <div class="more-list">
+        <div class="more-item" id="openTasbeehBtn">
+          <span class="mi-icon">📿</span>
+          <div class="mi-text"><div class="mi-en">Tasbeeh Counter</div><div class="mi-ur">تسبیح کاؤنٹر</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="more-item" id="openQiblaBtn">
+          <span class="mi-icon">🧭</span>
+          <div class="mi-text"><div class="mi-en">Qibla Direction</div><div class="mi-ur">قبلہ رخ</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="more-item" id="openHijriBtn">
+          <span class="mi-icon">📅</span>
+          <div class="mi-text"><div class="mi-en">Hijri Calendar</div><div class="mi-ur">اسلامی کیلنڈر</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="more-item" id="openZakatBtn">
+          <span class="mi-icon">💰</span>
+          <div class="mi-text"><div class="mi-en">Zakat Calculator</div><div class="mi-ur">زکوٰۃ کیلکولیٹر</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="more-item" id="openQazaBtn">
+          <span class="mi-icon">📿</span>
+          <div class="mi-text"><div class="mi-en">Qaza Namaz Tracker</div><div class="mi-ur">قضا نمازوں کا حساب</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="more-item" id="openMasjidBtn">
+          <span class="mi-icon">🕌</span>
+          <div class="mi-text"><div class="mi-en">Local Masjid Times</div><div class="mi-ur">قریبی مساجد کے اوقات</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="more-item" id="openKhatmBtn">
+          <span class="mi-icon">👥</span>
+          <div class="mi-text"><div class="mi-en">Group Khatm Tracker</div><div class="mi-ur">اجتماعی ختم قرآن</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="more-item" id="openMoodBtn">
+          <span class="mi-icon">💚</span>
+          <div class="mi-text"><div class="mi-en">Dil ki Kaifiyat</div><div class="mi-ur">دل کی کیفیت کے مطابق</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="more-item" id="openNazraBtn">
+          <span class="mi-icon">🔤</span>
+          <div class="mi-text"><div class="mi-en">Nazra — Arabic Harf</div><div class="mi-ur">بچوں کے لیے ناظرہ</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="more-item" id="openParentBtn">
+          <span class="mi-icon">👨‍👩‍👧</span>
+          <div class="mi-text"><div class="mi-en">Parent Dashboard</div><div class="mi-ur">والدین کا ڈیش بورڈ</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="more-item" id="openStoriesBtn">
+          <span class="mi-icon">📖</span>
+          <div class="mi-text"><div class="mi-en">Bedtime Stories</div><div class="mi-ur">سونے کے وقت کی کہانیاں</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+        <div class="more-item" id="openStreakBtn">
+          <span class="mi-icon">🔥</span>
+          <div class="mi-text"><div class="mi-en">Deen Streak</div><div class="mi-ur">روزانہ کا تسلسل</div></div>
+          <span class="mi-arrow">→</span>
+        </div>
+      </div>
+      <p class="hint" style="margin-top:20px;">Baqi features agle updates mein shamil honge.</p>
+    </section>
+
+    <!-- ===================== QIBLA SUB-VIEW ===================== -->
+    <section class="view" id="view-qibla">
+      <button class="back-btn" id="backFromQibla">&#8592; مزید (More)</button>
+      <div class="section-head">
+        <h2>Qibla Direction</h2>
+        <span class="ur-h">قبلہ رخ</span>
+      </div>
+      <p class="hint">Location aur compass sensor ki madad se Kaaba ki taraf rukh maloom karein. Phone ko flat pakड़ें aur figure-8 mein ghumayein agar sui theek na dikhe (calibration).</p>
+
+      <div id="qiblaStart">
+        <button class="btn btn-primary" id="findQiblaBtn" style="width:100%;">📍 قبلہ معلوم کریں (Find Qibla)</button>
+      </div>
+
+      <div id="qiblaResult" style="display:none;">
+        <div class="qibla-info" id="qiblaInfoText"></div>
+        <div class="compass-wrap">
+          <div class="compass-frame">
+            <div class="compass-rose" id="compassRose">
+              <span class="cr-n">N</span><span class="cr-e">E</span><span class="cr-s">S</span><span class="cr-w">W</span>
+              <div class="qibla-arrow" id="qiblaArrow">🕋</div>
+            </div>
+            <div class="compass-center-dot"></div>
+          </div>
+        </div>
+        <p class="hint" id="compassStatusText" style="text-align:center;"></p>
+      </div>
+    </section>
+
+    <!-- ===================== HIJRI CALENDAR SUB-VIEW ===================== -->
+    <section class="view" id="view-hijri">
+      <button class="back-btn" id="backFromHijri">&#8592; مزید (More)</button>
+      <div class="section-head">
+        <h2>Hijri Calendar</h2>
+        <span class="ur-h">اسلامی کیلنڈر</span>
+      </div>
+
+      <div class="hijri-nav">
+        <button class="hijri-nav-btn" id="hijriPrevBtn">&#8592;</button>
+        <div class="hijri-nav-title">
+          <div class="hnt-hijri" id="hijriMonthTitle">—</div>
+          <div class="hnt-greg" id="gregMonthTitle">—</div>
+        </div>
+        <button class="hijri-nav-btn" id="hijriNextBtn">&#8594;</button>
+      </div>
+
+      <div class="hijri-weekdays">
+        <span>اتوار</span><span>پیر</span><span>منگل</span><span>بدھ</span><span>جمعرات</span><span>جمعہ</span><span>ہفتہ</span>
+      </div>
+      <div class="hijri-grid" id="hijriGrid">
+        <div class="loading">لوڈ ہو رہا ہے...</div>
+      </div>
+
+      <div class="hijri-legend">
+        <span><span class="dot dot-today"></span> آج</span>
+        <span><span class="dot dot-event"></span> اہم تاریخ</span>
+      </div>
+    </section>
+
+    <!-- ===================== ZAKAT CALCULATOR SUB-VIEW ===================== -->
+    <section class="view" id="view-zakat">
+      <button class="back-btn" id="backFromZakat">&#8592; مزید (More)</button>
+      <div class="section-head">
+        <h2>Zakat Calculator</h2>
+        <span class="ur-h">زکوٰۃ کیلکولیٹر</span>
+      </div>
+      <p class="hint">Apne maal ki tafseel daal kar zakat ka andaza lagayein. Yeh sirf rehnumai ke liye hai — hisaab pukhta karne se pehle apne mufti/aalim se mashwara zaroor karein.</p>
+
+      <div class="namaz-form">
+        <div class="field-row">
+          <div class="field">
+            <label>نصاب کی بنیاد — Nisab basis</label>
+            <select id="nisabBasis">
+              <option value="silver">چاندی (Silver — 612.36g) — ehtiyaat wala, zyada log is mein shamil hote hain</option>
+              <option value="gold">سونا (Gold — 87.48g)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>سونے کی موجودہ قیمت فی گرام (Gold price / gram)</label>
+            <input type="number" id="goldPricePerGram" placeholder="e.g. 25000" inputmode="decimal">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>چاندی کی موجودہ قیمت فی گرام (Silver price / gram)</label>
+            <input type="number" id="silverPricePerGram" placeholder="e.g. 320" inputmode="decimal">
+          </div>
+        </div>
+
+        <hr style="border:none;border-top:1px solid var(--line);margin:16px 0;">
+
+        <div class="field-row">
+          <div class="field">
+            <label>نقدی — گھر اور بینک میں (Cash — home + bank)</label>
+            <input type="number" id="zCash" placeholder="0" inputmode="decimal">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>سونا — کل وزن گرام میں (Gold you own — grams)</label>
+            <input type="number" id="zGoldGrams" placeholder="0" inputmode="decimal">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>چاندی — کل وزن گرام میں (Silver you own — grams)</label>
+            <input type="number" id="zSilverGrams" placeholder="0" inputmode="decimal">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>کاروباری مال / اسٹاک (Business inventory / stock value)</label>
+            <input type="number" id="zBusiness" placeholder="0" inputmode="decimal">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>سرمایہ کاری / منافع بخش رقم (Investments / savings)</label>
+            <input type="number" id="zInvestments" placeholder="0" inputmode="decimal">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>دوسروں سے واپس لینی ہے (Money owed to you, expected back)</label>
+            <input type="number" id="zReceivables" placeholder="0" inputmode="decimal">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>آپ پر قرض ہے (Debts / liabilities you owe)</label>
+            <input type="number" id="zDebts" placeholder="0" inputmode="decimal">
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="calcZakatBtn">حساب کریں (Calculate Zakat)</button>
+        </div>
+      </div>
+
+      <div id="zakatResult"></div>
+    </section>
+
+    <!-- ===================== QAZA NAMAZ TRACKER SUB-VIEW ===================== -->
+    <section class="view" id="view-qaza">
+      <button class="back-btn" id="backFromQaza">&#8592; مزید (More)</button>
+      <div class="section-head">
+        <h2>Qaza Namaz Tracker</h2>
+        <span class="ur-h">قضا نمازوں کا حساب</span>
+      </div>
+      <p class="hint">Jo namazein qaza ho chuki hain un ka hisaab rakhein. Jab yaad aaye ke koi namaz reh gayi hai to "+" dabayein, aur jab qaza ada kar lein to "–" dabayein.</p>
+
+      <div class="qaza-list" id="qazaList"></div>
+
+      <div class="qaza-total" id="qazaTotal"></div>
+
+      <div class="btn-row" style="margin-top:16px;">
+        <button class="btn btn-ghost" id="qazaResetBtn">↺ Sab Reset Karein</button>
+      </div>
+    </section>
+
+    <!-- ===================== LOCAL MASJID TIMES SUB-VIEW ===================== -->
+    <section class="view" id="view-masjid">
+      <button class="back-btn" id="backFromMasjid">&#8592; مزید (More)</button>
+      <div class="section-head">
+        <h2>Local Masjid Times</h2>
+        <span class="ur-h">قریبی مساجد کے اوقات</span>
+      </div>
+      <p class="hint">Yeh waqt hamare aam calculation se nahi, balke asal masjidon ke log khud daalte hain — is liye zyada asal (accurate) ho sakte hain.</p>
+
+      <div class="namaz-form">
+        <div class="field-row">
+          <div class="field">
+            <label>Shehar / Ilaqa (City / Area)</label>
+            <input type="text" id="masjidCitySearch" placeholder="e.g. Rawalpindi, Model Town...">
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="searchMasjidBtn">🔍 Dhoondein</button>
+          <button class="btn btn-ghost" id="addMasjidBtn">➕ Apni Masjid Add Karein</button>
+        </div>
+      </div>
+
+      <div id="masjidList"></div>
+
+      <!-- Add Masjid Form (hidden by default) -->
+      <div id="addMasjidForm" style="display:none;">
+        <div class="section-head" style="margin-top:20px;">
+          <h2>Add Masjid</h2>
+          <span class="ur-h">نئی مسجد شامل کریں</span>
+        </div>
+        <div class="namaz-form">
+          <div class="field-row">
+            <div class="field">
+              <label>Masjid ka Naam</label>
+              <input type="text" id="newMasjidName" placeholder="e.g. Jamia Masjid Ghausia">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>Shehar / Ilaqa</label>
+              <input type="text" id="newMasjidCity" placeholder="e.g. Rawalpindi, Satellite Town">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>فجر Iqamah</label><input type="text" id="newMasjidFajr" placeholder="e.g. 05:15 AM"></div>
+            <div class="field"><label>ظہر Iqamah</label><input type="text" id="newMasjidDhuhr" placeholder="e.g. 01:30 PM"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>عصر Iqamah</label><input type="text" id="newMasjidAsr" placeholder="e.g. 05:00 PM"></div>
+            <div class="field"><label>مغرب Iqamah</label><input type="text" id="newMasjidMaghrib" placeholder="e.g. sunset+5min"></div>
+          </div>
+          <div class="field-row">
+            <div class="field"><label>عشاء Iqamah</label><input type="text" id="newMasjidIsha" placeholder="e.g. 08:00 PM"></div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="submitMasjidBtn">Shamil Karein</button>
+            <button class="btn btn-ghost" id="cancelMasjidBtn">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== GROUP KHATM TRACKER SUB-VIEW ===================== -->
+    <section class="view" id="view-khatm">
+      <button class="back-btn" id="backFromKhatm">&#8592; مزید (More)</button>
+      <div class="section-head">
+        <h2>Group Khatm Tracker</h2>
+        <span class="ur-h">اجتماعی ختم قرآن</span>
+      </div>
+
+      <!-- Entry screen: create or join -->
+      <div id="khatmEntryWrap">
+        <p class="hint">Family, dost, ya mohalle ke sath mil kar 30 Para baant kar Quran khatam karein — sab ki progress ek hi jagah nazar aayegi.</p>
+
+        <div class="namaz-form">
+          <div class="field-row">
+            <div class="field">
+              <label>Naya Group Banayein (Group ka naam)</label>
+              <input type="text" id="newKhatmName" placeholder="e.g. Ahmed Family Khatm">
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" id="createKhatmBtn" style="width:100%;">➕ Naya Group Banayein</button>
+          </div>
+        </div>
+
+        <div class="namaz-form" style="margin-top:14px;">
+          <div class="field-row">
+            <div class="field">
+              <label>Group Code se Shamil Hon</label>
+              <input type="text" id="joinKhatmCode" placeholder="e.g. AB12CD" style="text-transform:uppercase;">
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-ghost" id="joinKhatmBtn" style="width:100%;">🔑 Group Join Karein</button>
+          </div>
+        </div>
+
+        <div id="myKhatmGroupsWrap"></div>
+      </div>
+
+      <!-- Group detail screen -->
+      <div id="khatmGroupWrap" style="display:none;">
+        <button class="back-btn" id="backFromKhatmGroup">&#8592; Mere Groups</button>
+        <div class="khatm-group-card">
+          <div class="kg-name" id="khatmGroupName"></div>
+          <div class="kg-code">Group Code: <b id="khatmGroupCode"></b> <button class="khatm-share-btn" id="khatmShareBtn">Share</button></div>
+          <div class="kg-progress-bar"><div class="kg-progress-fill" id="khatmProgressFill"></div></div>
+          <div class="kg-progress-text" id="khatmProgressText"></div>
+        </div>
+        <div class="khatm-para-grid" id="khatmParaGrid"></div>
+      </div>
+    </section>
+
+    <!-- ===================== DIL KI KAIFIYAT (MOOD) SUB-VIEW ===================== -->
+    <section class="view" id="view-mood">
+      <button class="back-btn" id="backFromMood">&#8592; مزید (More)</button>
+      <div class="section-head">
+        <h2>Dil ki Kaifiyat</h2>
+        <span class="ur-h">دل کی کیفیت کے مطابق</span>
+      </div>
+
+      <div id="moodPickerWrap">
+        <p class="hint">Abhi dil kaisa mehsoos kar raha hai? Chunein, aur us ke mutabiq ek ayat ya dua aur chhota sa paigham milega.</p>
+        <div class="mood-grid" id="moodGrid"></div>
+      </div>
+
+      <div id="moodResultWrap" style="display:none;">
+        <button class="back-btn" id="backFromMoodResult">&#8592; Dobara Chunein</button>
+        <div class="mood-result-card" id="moodResultCard"></div>
+      </div>
+    </section>
+
+    <!-- ===================== NAZRA (ARABIC HARF) SUB-VIEW ===================== -->
+    <section class="view" id="view-nazra">
+      <button class="back-btn" id="backFromNazra">&#8592; مزید (More)</button>
+      <div class="section-head">
+        <h2>Nazra — Arabic Harf</h2>
+        <span class="ur-h">بچوں کے لیے ناظرہ</span>
+      </div>
+      <p class="hint">Har harf par tap karein — awaz sunayi degi. Seekh liya ho to ✓ dabayen taake yaad rahe kaun se harf mukammal ho chuke hain۔</p>
+
+      <div class="nazra-progress-bar"><div class="nazra-progress-fill" id="nazraProgressFill"></div></div>
+      <div class="nazra-progress-text" id="nazraProgressText"></div>
+
+      <div class="nazra-grid" id="nazraGrid"></div>
+    </section>
+
+    <!-- ===================== PARENT DASHBOARD SUB-VIEW ===================== -->
+    <section class="view" id="view-parent">
+      <button class="back-btn" id="backFromParent">&#8592; مزید (More)</button>
+      <div class="section-head">
+        <h2>Parent Dashboard</h2>
+        <span class="ur-h">والدین کا ڈیش بورڈ</span>
+      </div>
+      <p class="hint">Is phone par app ki activity ka khulasa — Nazra, Tasbeeh, Namaz aur Streak sab ek jagah۔</p>
+
+      <div class="parent-grid" id="parentGrid"></div>
+    </section>
+
+    <!-- ===================== BEDTIME STORIES SUB-VIEW ===================== -->
+    <section class="view" id="view-stories">
+      <button class="back-btn" id="backFromStories">&#8592; مزید (More)</button>
+      <div id="storiesListWrap">
+        <div class="section-head">
+          <h2>Bedtime Stories</h2>
+          <span class="ur-h">سونے کے وقت کی کہانیاں</span>
+        </div>
+        <p class="hint">Nabiyon aur Sahaba ke qissay — bachon ke sath sunein ya padhein۔</p>
+        <div class="stories-list" id="storiesList"></div>
+      </div>
+      <div id="storyDetailWrap" style="display:none;">
+        <button class="back-btn" id="backFromStoryDetail">&#8592; تمام کہانیاں</button>
+        <div class="story-detail-card" id="storyDetailCard"></div>
+      </div>
+    </section>
+
+    <!-- ===================== DEEN STREAK SUB-VIEW ===================== -->
+    <section class="view" id="view-streak">
+      <button class="back-btn" id="backFromStreak">&#8592; مزید (More)</button>
+      <div class="section-head">
+        <h2>Deen Streak</h2>
+        <span class="ur-h">روزانہ کا تسلسل</span>
+      </div>
+
+      <div class="streak-card">
+        <div class="streak-flame" id="streakFlame">🔥</div>
+        <div class="streak-num" id="streakNum">0</div>
+        <div class="streak-label">دن مسلسل</div>
+        <div class="streak-best" id="streakBest"></div>
+      </div>
+
+      <div class="streak-week" id="streakWeek"></div>
+
+      <div class="btn-row" style="margin-top:18px;">
+        <button class="btn btn-primary" id="markTodayBtn" style="width:100%;">آج کا عمل مکمل — Mark Today Done</button>
+      </div>
+      <p class="hint" style="margin-top:10px;text-align:center;">Roz namaz, tilawat ya zikr karne ke baad "Mark Today Done" dabayen — tasalsul (streak) barhta rahega۔</p>
+    </section>
+
+    <section class="view" id="view-tasbeeh">
+      <button class="back-btn" id="backFromTasbeeh">&#8592; مزید (More)</button>
+
+      <div id="tasbeehListWrap">
+        <div class="section-head">
+          <h2>Tasbeeh Counter</h2>
+          <span class="ur-h">تسبیح کاؤنٹر</span>
+        </div>
+
+        <div class="tsb-subtabs">
+          <button class="tsb-subtab active" data-sub="popular">Popular<span class="ur">مقبول اذکار</span></button>
+          <button class="tsb-subtab" data-sub="mine">My Tasbeeh<span class="ur">میری تسبیح</span></button>
+        </div>
+
+        <div id="tsbPopularList"></div>
+        <div id="tsbMineList" style="display:none;"></div>
+      </div>
+
+      <div id="tasbeehCounterWrap" style="display:none;">
+        <button class="back-btn" id="backFromCounter">&#8592; فہرست (List)</button>
+        <div class="counter-card">
+          <div class="counter-ar" id="counterAr"></div>
+          <div class="counter-ur" id="counterUr"></div>
+          <div class="counter-number" id="counterNumber">0</div>
+          <button class="counter-tap" id="counterTapBtn">دبائیں<br><span style="font-size:11px;font-weight:400;">Tap</span></button>
+          <div class="counter-actions">
+            <button class="btn btn-ghost" id="counterResetBtn">↺ Reset</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+
+  <footer class="foot">
+    Quran text &amp; translations via AlQuran Cloud API &middot; Prayer times via Al-Adhan API
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   TAB SWITCHING
+   ============================================================ */
+const tabBtns = document.querySelectorAll('.tab-btn');
+const views = {
+  home: document.getElementById('view-home'),
+  quran: document.getElementById('view-quran'),
+  namaz: document.getElementById('view-namaz'),
+  duas: document.getElementById('view-duas'),
+  more: document.getElementById('view-more'),
+  tasbeeh: document.getElementById('view-tasbeeh'),
+  qibla: document.getElementById('view-qibla'),
+  hijri: document.getElementById('view-hijri'),
+  zakat: document.getElementById('view-zakat'),
+  qaza: document.getElementById('view-qaza'),
+  masjid: document.getElementById('view-masjid'),
+  khatm: document.getElementById('view-khatm'),
+  mood: document.getElementById('view-mood'),
+  nazra: document.getElementById('view-nazra'),
+  parent: document.getElementById('view-parent'),
+  stories: document.getElementById('view-stories'),
+  streak: document.getElementById('view-streak'),
+};
+function goToTab(tab){
+  tabBtns.forEach(b=> b.classList.toggle('active', b.dataset.tab === tab));
+  Object.entries(views).forEach(([key,v])=> v.classList.toggle('active', key === tab));
+}
+tabBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=> goToTab(btn.dataset.tab));
+});
+document.querySelectorAll('.quick-tile').forEach(btn=>{
+  btn.addEventListener('click', ()=> goToTab(btn.dataset.goto));
+});
+document.getElementById('homeSetLocationBtn').addEventListener('click', ()=> goToTab('namaz'));
+document.getElementById('openTasbeehBtn').addEventListener('click', ()=> goToTab('tasbeeh'));
+document.getElementById('backFromTasbeeh').addEventListener('click', ()=> goToTab('more'));
+document.getElementById('openQiblaBtn').addEventListener('click', ()=> goToTab('qibla'));
+document.getElementById('backFromQibla').addEventListener('click', ()=> goToTab('more'));
+document.getElementById('openHijriBtn').addEventListener('click', ()=>{
+  goToTab('hijri');
+  if(!hijriLoadedOnce) loadHijriCalendar();
+});
+document.getElementById('backFromHijri').addEventListener('click', ()=> goToTab('more'));
+document.getElementById('openZakatBtn').addEventListener('click', ()=> goToTab('zakat'));
+document.getElementById('backFromZakat').addEventListener('click', ()=> goToTab('more'));
+document.getElementById('openQazaBtn').addEventListener('click', ()=>{
+  goToTab('qaza');
+  renderQazaList();
+});
+document.getElementById('backFromQaza').addEventListener('click', ()=> goToTab('more'));
+document.getElementById('openMasjidBtn').addEventListener('click', ()=> goToTab('masjid'));
+document.getElementById('backFromMasjid').addEventListener('click', ()=> goToTab('more'));
+document.getElementById('openKhatmBtn').addEventListener('click', ()=>{
+  goToTab('khatm');
+  showKhatmEntry();
+});
+document.getElementById('backFromKhatm').addEventListener('click', ()=> goToTab('more'));
+document.getElementById('openMoodBtn').addEventListener('click', ()=>{
+  goToTab('mood');
+  document.getElementById('moodResultWrap').style.display = 'none';
+  document.getElementById('moodPickerWrap').style.display = 'block';
+});
+document.getElementById('backFromMood').addEventListener('click', ()=> goToTab('more'));
+document.getElementById('openNazraBtn').addEventListener('click', ()=>{
+  goToTab('nazra');
+  renderNazraGrid();
+});
+document.getElementById('backFromNazra').addEventListener('click', ()=> goToTab('more'));
+document.getElementById('openParentBtn').addEventListener('click', ()=>{
+  goToTab('parent');
+  renderParentDashboard();
+});
+document.getElementById('backFromParent').addEventListener('click', ()=> goToTab('more'));
+document.getElementById('openStoriesBtn').addEventListener('click', ()=>{
+  goToTab('stories');
+  document.getElementById('storyDetailWrap').style.display = 'none';
+  document.getElementById('storiesListWrap').style.display = 'block';
+});
+document.getElementById('backFromStories').addEventListener('click', ()=> goToTab('more'));
+document.getElementById('openStreakBtn').addEventListener('click', ()=>{
+  goToTab('streak');
+  renderStreak();
+});
+document.getElementById('backFromStreak').addEventListener('click', ()=> goToTab('more'));
+
+/* Gregorian + hijri-ish date strip */
+document.getElementById('gregorianDate').textContent =
+  new Date().toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+document.getElementById('homeGreetingDate').textContent =
+  new Date().toLocaleDateString('en-GB', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+/* ============================================================
+   HOME: Asma-ul-Husna (name of the day)
+   ============================================================ */
+const ASMA_UL_HUSNA = [
+  {ar:"الرَّحْمَٰنُ", en:"Ar-Rahman — The Most Compassionate", ur:"نہایت رحم والا"},
+  {ar:"الرَّحِيمُ", en:"Ar-Raheem — The Most Merciful", ur:"نہایت مہربان"},
+  {ar:"الْمَلِكُ", en:"Al-Malik — The King", ur:"بادشاہ"},
+  {ar:"الْقُدُّوسُ", en:"Al-Quddus — The Most Sacred", ur:"نہایت پاک"},
+  {ar:"السَّلَامُ", en:"As-Salam — The Source of Peace", ur:"سلامتی والا"},
+  {ar:"الْمُؤْمِنُ", en:"Al-Mu'min — The Inspirer of Faith", ur:"امن دینے والا"},
+  {ar:"الْمُهَيْمِنُ", en:"Al-Muhaymin — The Guardian", ur:"نگہبان"},
+  {ar:"الْعَزِيزُ", en:"Al-Aziz — The Victorious", ur:"غالب"},
+  {ar:"الْجَبَّارُ", en:"Al-Jabbar — The Compeller", ur:"زبردست"},
+  {ar:"الْمُتَكَبِّرُ", en:"Al-Mutakabbir — The Greatest", ur:"بڑائی والا"},
+  {ar:"الْخَالِقُ", en:"Al-Khaliq — The Creator", ur:"پیدا کرنے والا"},
+  {ar:"الْبَارِئُ", en:"Al-Bari — The Maker of Order", ur:"بغیر نمونہ پیدا کرنے والا"},
+  {ar:"الْمُصَوِّرُ", en:"Al-Musawwir — The Shaper of Beauty", ur:"صورت بنانے والا"},
+  {ar:"الْغَفَّارُ", en:"Al-Ghaffar — The Repeatedly Forgiving", ur:"بار بار معاف کرنے والا"},
+  {ar:"الْقَهَّارُ", en:"Al-Qahhar — The Subduer", ur:"سب پر غالب"},
+  {ar:"الْوَهَّابُ", en:"Al-Wahhab — The Bestower", ur:"بہت عطا کرنے والا"},
+  {ar:"الرَّزَّاقُ", en:"Ar-Razzaq — The Provider", ur:"رزق دینے والا"},
+  {ar:"الْفَتَّاحُ", en:"Al-Fattah — The Opener", ur:"فیصلہ کرنے والا"},
+  {ar:"الْعَلِيمُ", en:"Al-'Alim — The Knower of All", ur:"سب کچھ جاننے والا"},
+  {ar:"الْقَابِضُ", en:"Al-Qabid — The Withholder", ur:"تنگی دینے والا"},
+  {ar:"الْبَاسِطُ", en:"Al-Basit — The Extender", ur:"وسعت دینے والا"},
+  {ar:"الْخَافِضُ", en:"Al-Khafid — The Reducer", ur:"پست کرنے والا"},
+  {ar:"الرَّافِعُ", en:"Ar-Rafi' — The Exalter", ur:"بلند کرنے والا"},
+  {ar:"الْمُعِزُّ", en:"Al-Mu'izz — The Bestower of Honor", ur:"عزت دینے والا"},
+  {ar:"الْمُذِلُّ", en:"Al-Mudhill — The Humiliator", ur:"ذلت دینے والا"},
+  {ar:"السَّمِيعُ", en:"As-Sami' — The All-Hearing", ur:"سب کچھ سننے والا"},
+  {ar:"الْبَصِيرُ", en:"Al-Basir — The All-Seeing", ur:"سب کچھ دیکھنے والا"},
+  {ar:"الْحَكَمُ", en:"Al-Hakam — The Judge", ur:"فیصلہ کرنے والا"},
+  {ar:"الْعَدْلُ", en:"Al-'Adl — The Utterly Just", ur:"عدل کرنے والا"},
+  {ar:"اللَّطِيفُ", en:"Al-Latif — The Subtly Kind", ur:"باریک بین"},
+  {ar:"الْخَبِيرُ", en:"Al-Khabir — The All-Aware", ur:"خبر رکھنے والا"},
+  {ar:"الْحَلِيمُ", en:"Al-Halim — The Forbearing", ur:"بردبار"},
+  {ar:"الْعَظِيمُ", en:"Al-'Azim — The Magnificent", ur:"عظمت والا"},
+  {ar:"الْغَفُورُ", en:"Al-Ghafoor — The Great Forgiver", ur:"بخشنے والا"},
+  {ar:"الشَّكُورُ", en:"Ash-Shakoor — The Grateful", ur:"قدردان"},
+  {ar:"الْعَلِيُّ", en:"Al-'Ali — The Highest", ur:"سب سے بلند"},
+  {ar:"الْكَبِيرُ", en:"Al-Kabir — The Greatest", ur:"سب سے بڑا"},
+  {ar:"الْحَفِيظُ", en:"Al-Hafiz — The Preserver", ur:"حفاظت کرنے والا"},
+  {ar:"الْمُقِيتُ", en:"Al-Muqit — The Sustainer", ur:"روزی پہنچانے والا"},
+  {ar:"الْحَسِيبُ", en:"Al-Hasib — The Reckoner", ur:"حساب لینے والا"},
+  {ar:"الْجَلِيلُ", en:"Al-Jalil — The Majestic", ur:"جلال والا"},
+  {ar:"الْكَرِيمُ", en:"Al-Karim — The Generous", ur:"کرم کرنے والا"},
+  {ar:"الرَّقِيبُ", en:"Ar-Raqib — The Watchful", ur:"نگرانی کرنے والا"},
+  {ar:"الْمُجِيبُ", en:"Al-Mujib — The Responsive", ur:"قبول کرنے والا"},
+  {ar:"الْوَاسِعُ", en:"Al-Wasi' — The All-Encompassing", ur:"وسعت والا"},
+  {ar:"الْحَكِيمُ", en:"Al-Hakim — The Perfectly Wise", ur:"حکمت والا"},
+  {ar:"الْوَدُودُ", en:"Al-Wadud — The Loving One", ur:"محبت کرنے والا"},
+  {ar:"الْمَجِيدُ", en:"Al-Majid — The Glorious", ur:"بزرگی والا"},
+  {ar:"الْبَاعِثُ", en:"Al-Ba'ith — The Resurrector", ur:"دوبارہ زندہ کرنے والا"},
+  {ar:"الشَّهِيدُ", en:"Ash-Shahid — The Witness", ur:"گواہ"},
+  {ar:"الْحَقُّ", en:"Al-Haqq — The Absolute Truth", ur:"سچا"},
+  {ar:"الْوَكِيلُ", en:"Al-Wakil — The Trustee", ur:"کارساز"},
+  {ar:"الْقَوِيُّ", en:"Al-Qawiyy — The Possessor of All Strength", ur:"قوت والا"},
+  {ar:"الْمَتِينُ", en:"Al-Matin — The Firm One", ur:"مضبوط"},
+  {ar:"الْوَلِيُّ", en:"Al-Waliyy — The Protecting Friend", ur:"دوست"},
+  {ar:"الْحَمِيدُ", en:"Al-Hamid — The Praiseworthy", ur:"تعریف کے لائق"},
+  {ar:"الْمُحْصِي", en:"Al-Muhsi — The Accounter", ur:"گننے والا"},
+  {ar:"الْمُبْدِئُ", en:"Al-Mubdi — The Originator", ur:"پہلی بار پیدا کرنے والا"},
+  {ar:"الْمُعِيدُ", en:"Al-Mu'id — The Restorer", ur:"دوبارہ پیدا کرنے والا"},
+  {ar:"الْمُحْيِي", en:"Al-Muhyi — The Giver of Life", ur:"زندگی دینے والا"},
+  {ar:"الْمُمِيتُ", en:"Al-Mumit — The Bringer of Death", ur:"موت دینے والا"},
+  {ar:"الْحَيُّ", en:"Al-Hayy — The Ever-Living", ur:"ہمیشہ زندہ"},
+  {ar:"الْقَيُّومُ", en:"Al-Qayyum — The Self-Existing", ur:"ہمیشہ قائم رہنے والا"},
+  {ar:"الْوَاجِدُ", en:"Al-Wajid — The Perceiver", ur:"پانے والا"},
+  {ar:"الْمَاجِدُ", en:"Al-Majid — The Illustrious", ur:"بزرگی والا"},
+  {ar:"الْوَاحِدُ", en:"Al-Wahid — The Only One", ur:"اکیلا"},
+  {ar:"الْأَحَدُ", en:"Al-Ahad — The One", ur:"ایک"},
+  {ar:"الصَّمَدُ", en:"As-Samad — The Eternal", ur:"بے نیاز"},
+  {ar:"الْقَادِرُ", en:"Al-Qadir — The All-Able", ur:"قدرت والا"},
+  {ar:"الْمُقْتَدِرُ", en:"Al-Muqtadir — The All-Determiner", ur:"غالب قدرت والا"},
+  {ar:"الْمُقَدِّمُ", en:"Al-Muqaddim — The Expediter", ur:"آگے کرنے والا"},
+  {ar:"الْمُؤَخِّرُ", en:"Al-Mu'akhkhir — The Delayer", ur:"پیچھے کرنے والا"},
+  {ar:"الْأَوَّلُ", en:"Al-Awwal — The First", ur:"سب سے پہلا"},
+  {ar:"الْآخِرُ", en:"Al-Akhir — The Last", ur:"سب سے آخر"},
+  {ar:"الظَّاهِرُ", en:"Az-Zahir — The Manifest One", ur:"ظاہر"},
+  {ar:"الْبَاطِنُ", en:"Al-Batin — The Hidden One", ur:"پوشیدہ"},
+  {ar:"الْوَالِي", en:"Al-Waali — The Governor", ur:"حاکم"},
+  {ar:"الْمُتَعَالِي", en:"Al-Muta'ali — The Self Exalted", ur:"بلند و برتر"},
+  {ar:"الْبَرُّ", en:"Al-Barr — The Doer of Good", ur:"بھلائی کرنے والا"},
+  {ar:"التَّوَابُ", en:"At-Tawwab — The Guide to Repentance", ur:"توبہ قبول کرنے والا"},
+  {ar:"الْمُنْتَقِمُ", en:"Al-Muntaqim — The Avenger", ur:"انتقام لینے والا"},
+  {ar:"الْعَفُوُّ", en:"Al-Afuww — The Forgiver", ur:"معاف کرنے والا"},
+  {ar:"الرَّؤُوفُ", en:"Ar-Ra'oof — The Most Kind", ur:"نہایت شفیق"},
+  {ar:"مَالِكُ الْمُلْكِ", en:"Malik-ul-Mulk — Owner of All", ur:"بادشاہت کا مالک"},
+  {ar:"ذُوالْجَلَالِ وَالْإِكْرَامِ", en:"Dhul-Jalali wal-Ikram — Lord of Majesty and Bounty", ur:"جلال و اکرام والا"},
+  {ar:"الْمُقْسِطُ", en:"Al-Muqsit — The Equitable One", ur:"انصاف کرنے والا"},
+  {ar:"الْجَامِعُ", en:"Al-Jami' — The Gatherer", ur:"جمع کرنے والا"},
+  {ar:"الْغَنِيُّ", en:"Al-Ghani — The Rich One", ur:"بے نیاز"},
+  {ar:"الْمُغْنِي", en:"Al-Mughni — The Enricher", ur:"غنی کرنے والا"},
+  {ar:"الْمَانِعُ", en:"Al-Mani' — The Preventer of Harm", ur:"روکنے والا"},
+  {ar:"الضَّارُّ", en:"Ad-Darr — The Distressor (by His will)", ur:"نقصان پہنچانے والا"},
+  {ar:"النَّافِعُ", en:"An-Nafi' — The Benefiter", ur:"نفع دینے والا"},
+  {ar:"النُّورُ", en:"An-Nur — The Light", ur:"نور"},
+  {ar:"الْهَادِي", en:"Al-Hadi — The Guide", ur:"ہدایت دینے والا"},
+  {ar:"الْبَدِيعُ", en:"Al-Badi' — The Originator", ur:"انوکھی چیزیں بنانے والا"},
+  {ar:"الْبَاقِي", en:"Al-Baqi — The Everlasting One", ur:"ہمیشہ باقی رہنے والا"},
+  {ar:"الْوَارِثُ", en:"Al-Warith — The Inheritor of All", ur:"وارث"},
+  {ar:"الرَّشِيدُ", en:"Ar-Rashid — The Righteous Teacher", ur:"راہ دکھانے والا"},
+  {ar:"الصَّبُورُ", en:"As-Sabur — The Timeless", ur:"صبر والا"},
+];
+
+(function renderAsmaOfDay(){
+  const start = new Date(new Date().getFullYear(), 0, 0);
+  const diff = new Date() - start;
+  const dayOfYear = Math.floor(diff / 86400000);
+  const name = ASMA_UL_HUSNA[dayOfYear % ASMA_UL_HUSNA.length];
+  document.getElementById('asmaCard').innerHTML = `
+    <div class="asma-ar">${name.ar}</div>
+    <div class="asma-en">${name.en}</div>
+    <div class="asma-ur">${name.ur}</div>
+  `;
+})();
+
+/* ============================================================
+   QURAN: Surah list + detail
+   ============================================================ */
+const surahGrid = document.getElementById('surahGrid');
+const surahListWrap = document.getElementById('surahListWrap');
+const surahDetailWrap = document.getElementById('surahDetailWrap');
+const surahBanner = document.getElementById('surahBanner');
+const ayahsList = document.getElementById('ayahsList');
+const backToSurahs = document.getElementById('backToSurahs');
+const reciterSelect = document.getElementById('reciterSelect');
+const playSurahBtn = document.getElementById('playSurahBtn');
+
+let surahsCache = null;
+let currentSurahNumber = null;
+let currentAyahAudios = [];
+let currentlyPlayingAyahIdx = null;
+let fullSurahPlaying = false;
+const audioPlayer = new Audio();
+
+function stopAllAudio(){
+  audioPlayer.pause();
+  audioPlayer.src = '';
+  fullSurahPlaying = false;
+  currentlyPlayingAyahIdx = null;
+  playSurahBtn.classList.remove('playing');
+  playSurahBtn.textContent = '▶ پوری سورت سنیں';
+  clearAyahHighlight();
+}
+
+function clearAyahHighlight(){
+  document.querySelectorAll('.ayah.is-playing').forEach(el=> el.classList.remove('is-playing'));
+  document.querySelectorAll('.ayah-play-btn.playing').forEach(btn=>{
+    btn.classList.remove('playing');
+    btn.textContent = '▶';
+  });
+}
+
+function playAyahAt(idx){
+  if(!currentAyahAudios[idx]) return;
+  const wasFullSurah = fullSurahPlaying;
+  audioPlayer.pause();
+  clearAyahHighlight();
+  currentlyPlayingAyahIdx = idx;
+  fullSurahPlaying = wasFullSurah;
+
+  const ayahEl = document.querySelectorAll('.ayah')[idx];
+  const btnEl = document.querySelectorAll('.ayah-play-btn')[idx];
+  if(ayahEl){
+    ayahEl.classList.add('is-playing');
+    ayahEl.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+  if(btnEl){ btnEl.classList.add('playing'); btnEl.textContent = '❚❚'; }
+  audioPlayer.src = currentAyahAudios[idx];
+  audioPlayer.play();
+}
+
+audioPlayer.addEventListener('ended', ()=>{
+  if(currentlyPlayingAyahIdx !== null){
+    const nextIdx = currentlyPlayingAyahIdx + 1;
+    if(currentAyahAudios[nextIdx]){
+      playAyahAt(nextIdx);
+    } else {
+      stopAllAudio();
+    }
+  }
+});
+
+playSurahBtn.addEventListener('click', ()=>{
+  if(fullSurahPlaying){
+    stopAllAudio();
+    return;
+  }
+  if(!currentSurahNumber || !currentAyahAudios.length) return;
+  stopAllAudio();
+  fullSurahPlaying = true;
+  playSurahBtn.classList.add('playing');
+  playSurahBtn.textContent = '❚❚ روکیں';
+  playAyahAt(0);
+});
+
+reciterSelect.addEventListener('change', ()=>{
+  stopAllAudio();
+  if(currentSurahNumber) openSurah(currentSurahNumber);
+});
+
+async function loadSurahList(){
+  try{
+    const res = await fetch('https://api.alquran.cloud/v1/surah');
+    const data = await res.json();
+    surahsCache = data.data;
+    renderSurahGrid(surahsCache);
+  }catch(err){
+    surahGrid.innerHTML = `<div class="error-box">Surah list load nahi ho saki. Internet connection check karein aur dobara koshish karein.<br><br>Could not load the surah list — please check your connection and try again.</div>`;
+  }
+}
+
+function renderSurahGrid(list){
+  surahGrid.className = 'surah-grid';
+  surahGrid.innerHTML = list.map(s => `
+    <div class="surah-card" data-num="${s.number}">
+      <div class="surah-num">${s.number}</div>
+      <div class="surah-meta">
+        <div class="surah-en">${s.englishName}</div>
+        <div class="surah-sub">${s.englishNameTranslation} · ${s.numberOfAyahs} ayahs</div>
+      </div>
+      <div class="surah-ar">${s.name}</div>
+    </div>
+  `).join('');
+  surahGrid.querySelectorAll('.surah-card').forEach(card=>{
+    card.addEventListener('click', ()=> openSurah(parseInt(card.dataset.num)));
+  });
+}
+
+let currentUthmaniAyahs = null;
+let currentIndopakAyahs = null;
+let currentUrduAyahs = null;
+let currentEnglishAyahs = null;
+
+async function openSurah(number){
+  surahListWrap.style.display = 'none';
+  surahDetailWrap.style.display = 'block';
+  ayahsList.className = 'loading';
+  ayahsList.innerHTML = 'لوڈ ہو رہا ہے... Loading ayahs…';
+  surahBanner.innerHTML = '';
+  stopAllAudio();
+  currentSurahNumber = number;
+
+  try{
+    const reciter = reciterSelect.value;
+
+    // Main data (Arabic Uthmani + Urdu + English + audio) — required
+    const res = await fetch(`https://api.alquran.cloud/v1/surah/${number}/editions/quran-uthmani,ur.jalandhry,en.sahih,${reciter}`);
+    const data = await res.json();
+    const [arabicEd, urduEd, englishEd, audioEd] = data.data;
+    currentAyahAudios = audioEd.ayahs.map(a => a.audio);
+    currentUthmaniAyahs = arabicEd.ayahs;
+    currentUrduAyahs = urduEd.ayahs;
+    currentEnglishAyahs = englishEd.ayahs;
+
+    // IndoPak script — optional enhancement, falls back to Uthmani if it fails
+    // (slow/blocked connections shouldn't break the whole surah)
+    currentIndopakAyahs = null;
+    try{
+      const controller = new AbortController();
+      const timeoutId = setTimeout(()=> controller.abort(), 8000);
+      const indopakRes = await fetch(
+        `https://raw.githubusercontent.com/fawazahmed0/quran-api/1/editions/ara-quranindopak/${number}.json`,
+        { signal: controller.signal }
+      );
+      clearTimeout(timeoutId);
+      const indopakData = await indopakRes.json();
+      currentIndopakAyahs = indopakData.chapter;
+    }catch(indopakErr){
+      currentIndopakAyahs = null; // silently fall back to Uthmani script below
+    }
+
+    surahBanner.innerHTML = `
+      <div class="surah-banner">
+        <div class="ar">${arabicEd.name}</div>
+        <div class="en">${arabicEd.englishName} — ${arabicEd.englishNameTranslation}</div>
+        <div class="info">${arabicEd.revelationType} &middot; ${arabicEd.numberOfAyahs} Ayahs</div>
+      </div>
+    `;
+
+    renderAyahsList();
+  }catch(err){
+    ayahsList.className = '';
+    ayahsList.innerHTML = `<div class="error-box">Yeh surah load nahi ho saki. Dobara koshish karein.<br><br>Could not load this surah — please try again.</div>`;
+  }
+}
+
+function renderAyahsList(){
+  if(!currentUthmaniAyahs) return;
+  const useIndopak = scriptSelect.value === 'indopak' && currentIndopakAyahs;
+  const fontClass = (scriptSelect.value === 'indopak') ? 'indopak-mode' : '';
+
+  const ayahsHtml = currentUthmaniAyahs.map((ayah, i) => `
+    <div class="ayah">
+      <span class="ayah-num">${ayah.numberInSurah}</span>
+      <button class="ayah-play-btn" data-idx="${i}" title="سنیں">▶</button>
+      <div class="ayah-ar ${fontClass}">${useIndopak ? currentIndopakAyahs[i].text : ayah.text}</div>
+      <div class="ayah-ur">${currentUrduAyahs[i].text}</div>
+      <div class="ayah-en">${currentEnglishAyahs[i].text}</div>
+    </div>
+  `).join('');
+  ayahsList.className = '';
+  ayahsList.innerHTML = ayahsHtml;
+
+  ayahsList.querySelectorAll('.ayah-play-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const idx = parseInt(btn.dataset.idx);
+      if(currentlyPlayingAyahIdx === idx && !audioPlayer.paused){
+        stopAllAudio();
+      } else {
+        playAyahAt(idx);
+      }
+    });
+  });
+}
+
+const scriptSelect = document.getElementById('scriptSelect');
+scriptSelect.addEventListener('change', renderAyahsList);
+
+backToSurahs.addEventListener('click', ()=>{
+  stopAllAudio();
+  surahDetailWrap.style.display = 'none';
+  surahListWrap.style.display = 'block';
+});
+
+loadSurahList();
+
+/* ============================================================
+   NAMAZ: Prayer times (Al-Adhan API) — works for any country/city
+   ============================================================ */
+const COUNTRIES = ["Pakistan","Saudi Arabia","United Arab Emirates","India","Bangladesh","United Kingdom",
+"United States","Canada","Turkey","Egypt","Indonesia","Malaysia","Afghanistan","Iran","Iraq","Jordan",
+"Kuwait","Qatar","Bahrain","Oman","Yemen","Morocco","Algeria","Tunisia","Libya","Sudan","Nigeria","Kenya",
+"South Africa","Germany","France","Netherlands","Australia","China","Sri Lanka","Nepal","Somalia",
+"Azerbaijan","Uzbekistan","Kazakhstan","Tajikistan","Kyrgyzstan","Albania","Bosnia and Herzegovina",
+"Singapore","Brunei","Maldives","Palestine","Lebanon","Syria"];
+
+const countrySelect = document.getElementById('countrySelect');
+COUNTRIES.forEach(c=>{
+  const opt = document.createElement('option');
+  opt.value = c; opt.textContent = c;
+  countrySelect.appendChild(opt);
+});
+countrySelect.addEventListener('change', ()=>{
+  if(countrySelect.value) document.getElementById('countryInputManual').value = '';
+});
+
+const PRAYER_LABELS = [
+  {key:'Fajr', en:'Fajr', ur:'فجر'},
+  {key:'Dhuhr', en:'Dhuhr', ur:'ظہر'},
+  {key:'Asr', en:'Asr', ur:'عصر'},
+  {key:'Maghrib', en:'Maghrib', ur:'مغرب'},
+  {key:'Isha', en:'Isha', ur:'عشاء'},
+];
+
+const timingsResult = document.getElementById('timingsResult');
+
+async function fetchTimingsByCity(city, country){
+  timingsResult.innerHTML = `<div class="loading">اوقات معلوم کیے جا رہے ہیں... Fetching prayer times…</div>`;
+  try{
+    const url = `https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&method=2`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if(data.code !== 200) throw new Error('bad response');
+    renderTimings(data.data, `${city}, ${country}`);
+  }catch(err){
+    timingsResult.innerHTML = `<div class="error-box">Shehar ya mulk ka naam sahi likhein aur dobara koshish karein.<br><br>Could not find prayer times for that location — please check the spelling and try again.</div>`;
+  }
+}
+
+async function fetchTimingsByCoords(lat, lon){
+  timingsResult.innerHTML = `<div class="loading">اوقات معلوم کیے جا رہے ہیں... Fetching prayer times…</div>`;
+  try{
+    const url = `https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if(data.code !== 200) throw new Error('bad response');
+    renderTimings(data.data, `${lat.toFixed(2)}, ${lon.toFixed(2)}`);
+  }catch(err){
+    timingsResult.innerHTML = `<div class="error-box">Location se waqt maloom nahi ho saka. Dobara koshish karein.<br><br>Could not fetch prayer times for your location — please try again.</div>`;
+  }
+}
+
+function renderTimings(data, locationLabel){
+  const t = data.timings;
+  const date = data.date.readable;
+  const hijri = data.date.hijri ? `${data.date.hijri.day} ${data.date.hijri.month.en} ${data.date.hijri.year} AH` : '';
+
+  timingsResult.innerHTML = `
+    <div class="timings-card">
+      <div class="timings-loc">📍 ${locationLabel}</div>
+      <div class="timings-date">${date}${hijri ? ' &middot; ' + hijri : ''}</div>
+      <div class="timings-grid">
+        ${PRAYER_LABELS.map(p => `
+          <div class="timing-item">
+            <div class="p-ur">${p.ur}</div>
+            <div class="p-en">${p.en}</div>
+            <div class="p-time">${t[p.key]}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  updateHomeNextPrayer(t, locationLabel);
+}
+
+function updateHomeNextPrayer(t, locationLabel){
+  const now = new Date();
+  const order = ['Fajr','Dhuhr','Asr','Maghrib','Isha'];
+  const toMinutes = (str)=>{
+    const [h,m] = str.split(':').map(Number);
+    return h*60+m;
+  };
+  const nowMin = now.getHours()*60 + now.getMinutes();
+  let next = order.find(k => toMinutes(t[k]) > nowMin);
+  if(!next) next = order[0];
+  const label = PRAYER_LABELS.find(p=>p.key===next);
+  document.getElementById('homeNextPrayerCard').innerHTML = `
+    <div class="hnp-label">📍 ${locationLabel}</div>
+    <div class="hnp-name">اگلی نماز — Next Prayer</div>
+    <div class="hnp-time">${label.ur} ${t[next]}</div>
+  `;
+}
+
+document.getElementById('getTimingsBtn').addEventListener('click', ()=>{
+  const city = document.getElementById('cityInput').value.trim();
+  const country = (document.getElementById('countryInputManual').value.trim()) || countrySelect.value;
+  if(!city || !country){
+    timingsResult.innerHTML = `<div class="error-box">Meherbani karke shehar aur mulk dono likhein.<br><br>Please enter both a city and a country.</div>`;
+    return;
+  }
+  fetchTimingsByCity(city, country);
+});
+
+document.getElementById('useLocationBtn').addEventListener('click', ()=>{
+  if(!navigator.geolocation){
+    timingsResult.innerHTML = `<div class="error-box">Yeh browser location support nahi karta. Shehar/mulk manually likhein.<br><br>Geolocation isn't supported here — please enter city/country manually.</div>`;
+    return;
+  }
+  timingsResult.innerHTML = `<div class="loading">لوکیشن معلوم کی جا رہی ہے... Getting your location…</div>`;
+  navigator.geolocation.getCurrentPosition(
+    (pos)=> fetchTimingsByCoords(pos.coords.latitude, pos.coords.longitude),
+    (err)=> {
+      timingsResult.innerHTML = `<div class="error-box">Location permission نہیں مل سکی۔ Shehar aur mulk manually likh kar "Get Timings" dabayein.<br><br>Location permission was denied — please enter city/country manually instead.</div>`;
+    }
+  );
+});
+
+/* ============================================================
+   DUAS: static curated list (Arabic + transliteration + Urdu + English)
+   ============================================================ */
+const DUAS = [
+  {
+    en:"Morning Dua", ur:"صبح کی دعا",
+    ar:"اَللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ الْمَصِيرُ",
+    translit:"Allahumma bika asbahna wa bika amsayna wa bika nahya wa bika namutu wa ilaykal-masir",
+    ur_tr:"اے اللہ! تیری ہی قدرت سے ہم صبح کے وقت میں داخل ہوئے اور تیری ہی قدرت سے ہم شام کے وقت میں داخل ہوئے، اور تیری ہی قدرت سے ہم جیتے اور مرتے ہیں، اور تیری ہی طرف جانا ہے۔",
+    en_tr:"O Allah, by You we enter the morning and by You we enter the evening, by You we live and by You we die, and to You is our return.",
+    ref:"ترمذی: ۳۳۹۱"
+  },
+  {
+    en:"When the Sun Rises", ur:"سورج نکلنے کے وقت کی دعا",
+    ar:"الْحَمْدُ لِلَّهِ الَّذِي أَقَالَنَا يَوْمَنَا هَذَا وَلَمْ يُهْلِكْنَا بِذُنُوبِنَا",
+    translit:"Alhamdu lillahil-lazi aqalana yawmana haza wa lam yuhlikna bidhunubina",
+    ur_tr:"سب تعریفیں اللہ ہی کے لیے ہیں جس نے آج ہمیں معاف رکھا اور گناہوں کے سبب ہمیں ہلاک نہ فرمایا۔",
+    en_tr:"All praise is for Allah who spared us this day and did not destroy us for our sins.",
+    ref:"مسلم: ۱۹۱۱"
+  },
+  {
+    en:"Evening Dua", ur:"شام کی دعا",
+    ar:"اَللَّهُمَّ بِكَ أَمْسَيْنَا وَبِكَ أَصْبَحْنَا وَبِكَ نَحْيَا وَبِكَ نَمُوتُ وَإِلَيْكَ النُّشُورُ",
+    translit:"Allahumma bika amsayna wa bika asbahna wa bika nahya wa bika namutu wa ilaykan-nushoor",
+    ur_tr:"اے اللہ! ہم تیری ہی قدرت سے شام کے وقت میں داخل ہوئے اور تیری ہی قدرت سے صبح کے وقت میں داخل ہوئے، اور تیری ہی قدرت سے جیتے اور مرتے ہیں، اور مرنے کے بعد اٹھ کر تیری ہی طرف جانا ہے۔",
+    en_tr:"O Allah, by You we enter the evening and by You we enter the morning, by You we live and by You we die, and to You is our resurrection.",
+    ref:"ترمذی: ۳۳۹۱"
+  },
+  {
+    en:"Special Morning & Evening Dua", ur:"صبح و شام کی ایک خاص دعا",
+    ar:"بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
+    translit:"Bismillahil-lazi la yadurru ma'a ismihi shay'un fil-ardi wa la fis-sama'i wa Huwas-Sami'ul-'Aleem",
+    ur_tr:"اللہ کے نام سے، جس کے نام کے ساتھ نہ زمین میں کوئی چیز نقصان دے سکتی ہے نہ آسمان میں، اور وہ سننے والا اور جاننے والا ہے۔ (حضرت عثمانؓ فرماتے ہیں کہ رسول اللہ ﷺ نے فرمایا: جو بندہ ہر صبح و شام یہ کلمات تین مرتبہ پڑھ لیا کرے تو اسے کوئی چیز ضرر نہیں پہنچائے گی۔)",
+    en_tr:"In the name of Allah, with whose name nothing can harm on earth or in the heavens, and He is the All-Hearing, the All-Knowing. (Whoever recites this three times morning and evening, nothing will suddenly harm him.)",
+    ref:"ترمذی: ۳۳۸۸"
+  },
+  {
+    en:"Before Sleeping", ur:"سونے سے پہلے کی دعا",
+    ar:"بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+    translit:"Bismika Allahumma amootu wa ahya",
+    ur_tr:"اے اللہ! میں تیرا ہی نام لے کر مرتا اور جیتا ہوں۔ (سوتے وقت یہ بھی پڑھیں: سُبْحَانَ اللّٰہِ ۳۳ بار، اَلْحَمْدُ لِلّٰہِ ۳۳ بار، اَللّٰہُ اَکْبَرُ ۳۴ بار۔)",
+    en_tr:"In Your name, O Allah, I die and I live. (Also recite before sleeping: SubhanAllah 33 times, Alhamdulillah 33 times, Allahu Akbar 34 times.)",
+    ref:"بخاری: ۶۳۱۲، ۶۳۱۸"
+  },
+  {
+    en:"Protection Before Sleep", ur:"سوتے وقت حفاظت کی دعا",
+    ar:"اَللَّهُمَّ قِنِي عَذَابَكَ يَوْمَ تَجْمَعُ عِبَادَكَ",
+    translit:"Allahumma qini 'adhabaka yawma tajma'u 'ibadak",
+    ur_tr:"اے اللہ! مجھے اپنے عذاب سے بچائیو جس روز تو اپنے بندوں کو جمع فرمائے گا۔",
+    en_tr:"O Allah, protect me from Your punishment on the Day You gather Your servants.",
+    ref:"ابوداود: ۵۰۵۳"
+  },
+  {
+    en:"Waking Up", ur:"سو کر جاگنے کی دعا",
+    ar:"الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+    translit:"Alhamdu lillahil-lazi ahyana ba'da ma amatana wa ilayhin-nushoor",
+    ur_tr:"سب تعریفیں اللہ ہی کے لیے ہیں جس نے ہمیں موت دے کر زندگی بخشی، اور اسی کی طرف اٹھ کر جانا ہے۔",
+    en_tr:"All praise is for Allah who gave us life after having taken it from us, and unto Him is the return.",
+    ref:"بخاری: ۶۳۱۲"
+  },
+  {
+    en:"Entering the Toilet", ur:"بیت الخلاء میں داخل ہونے کی دعا",
+    ar:"اَللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبْثِ وَالْخَبَائِثِ",
+    translit:"Allahumma inni a'udhu bika minal-khubthi wal-khaba'ith",
+    ur_tr:"اے اللہ! میں تیری پناہ چاہتا ہوں خبیث جنوں سے، مرد ہوں یا عورت۔ (پہلے بسم اللہ کہیں۔)",
+    en_tr:"O Allah, I seek refuge in You from male and female devils. (Say 'Bismillah' before entering.)",
+    ref:"بخاری: ۶۳۲۲"
+  },
+  {
+    en:"Leaving the Toilet", ur:"بیت الخلاء سے نکلنے کی دعا",
+    ar:"الْحَمْدُ لِلَّهِ الَّذِي أَذْهَبَ عَنِّي الْأَذَى وَعَافَانِي",
+    translit:"Alhamdu lillahil-lazi adhhaba 'annil-adha wa 'afani",
+    ur_tr:"سب تعریفیں اللہ ہی کے لیے ہیں جس نے تکلیف دینے والی چیز مجھ سے دور کی اور مجھے سکون دیا۔",
+    en_tr:"All praise is for Allah who relieved me of discomfort and gave me relief.",
+    ref:"ابن ماجہ: ۳۰۱"
+  },
+  {
+    en:"Starting Wudu", ur:"وضو شروع کرنے کی دعا",
+    ar:"بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+    translit:"Bismillahir-Rahmanir-Raheem",
+    ur_tr:"شروع کرتا ہوں اللہ کے نام سے جو بڑا مہربان، نہایت رحم والا ہے۔",
+    en_tr:"I begin in the name of Allah, the Most Compassionate, the Most Merciful.",
+    ref:"ابوداود: ۱۰۱"
+  },
+  {
+    en:"After Completing Wudu", ur:"وضو مکمل ہونے کے بعد کی دعا",
+    ar:"أَشْهَدُ أَنْ لَّا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ اَللَّهُمَّ اجْعَلْنِي مِنَ التَّوَّابِينَ وَاجْعَلْنِي مِنَ الْمُتَطَهِّرِينَ",
+    translit:"Ash-hadu al-la ilaha illallahu wahdahu la sharika lah, wa ash-hadu anna Muhammadan 'abduhu wa rasooluh. Allahummaj-'alni minat-tawwabina waj-'alni minal-mutatahhireen",
+    ur_tr:"میں گواہی دیتا ہوں کہ اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں، اور میں گواہی دیتا ہوں کہ محمد ﷺ اللہ کے بندے اور اس کے رسول ہیں۔ اے اللہ! مجھے توبہ کرنے والوں میں اور پاک رہنے والوں میں شامل فرما۔",
+    en_tr:"I bear witness that there is no deity but Allah alone, with no partner, and that Muhammad is His servant and Messenger. O Allah, make me among those who repent and among those who purify themselves.",
+    ref:"ترمذی: ۵۵"
+  },
+  {
+    en:"Entering the Masjid", ur:"مسجد میں داخل ہونے کی دعا",
+    ar:"اَللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+    translit:"Allahummaf-tah li abwaba rahmatik",
+    ur_tr:"اے اللہ! میرے لیے اپنی رحمت کے دروازے کھول دے۔",
+    en_tr:"O Allah, open the gates of Your mercy for me.",
+    ref:"مسلم: ۱۷۵۲"
+  },
+  {
+    en:"Sitting in the Masjid", ur:"مسجد میں بیٹھے بیٹھے پڑھنے کی دعا",
+    ar:"سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَٰهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
+    translit:"Subhanallahi wal-hamdu lillahi wa la ilaha illallahu wallahu akbar",
+    ur_tr:"اللہ پاک ہے، اور سب تعریفیں اللہ ہی کے لیے ہیں، اور اللہ کے سوا کوئی معبود نہیں، اور اللہ سب سے بڑا ہے۔",
+    en_tr:"Glory be to Allah, all praise is for Allah, there is no deity but Allah, and Allah is the Greatest.",
+    ref:"الاذکار للنووی: ص۷۷"
+  },
+  {
+    en:"Leaving the Masjid", ur:"مسجد سے نکلنے کی دعا",
+    ar:"اَللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
+    translit:"Allahumma inni as'aluka min fadlik",
+    ur_tr:"اے اللہ! میں تجھ سے تیرے فضل کا سوال کرتا ہوں۔",
+    en_tr:"O Allah, I ask You from Your bounty.",
+    ref:"مسلم: ۱۷۵۲"
+  },
+  {
+    en:"Hearing the Adhan", ur:"اذان سننے کے وقت کا عمل",
+    ar:"لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+    translit:"La hawla wa la quwwata illa billah",
+    ur_tr:"جو موذن کہے وہی الفاظ دہرائیں، سوائے «حَیَّ عَلَی الصَّلٰوۃ» اور «حَیَّ عَلَی الْفَلَاح» کے — ان کے جواب میں یہ کہیں: لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّہِ (اللہ کی مدد کے بغیر نہ کوئی طاقت ہے نہ قوت)۔",
+    en_tr:"Repeat whatever the mu'adhin says, except at 'Hayya 'alas-salah' and 'Hayya 'alal-falah', where you respond: 'La hawla wa la quwwata illa billah' (There is no might nor power except with Allah).",
+    ref:"بخاری: ۶۱۱، ۶۱۳"
+  },
+  {
+    en:"After the Adhan", ur:"اذان ختم ہونے کے بعد کی دعا",
+    ar:"اَللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ وَالصَّلَاةِ الْقَائِمَةِ آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ وَابْعَثْهُ مَقَامًا مَّحْمُودًا الَّذِي وَعَدْتَهُ",
+    translit:"Allahumma Rabba hazihid-da'watit-tammati was-salatil-qa'imati, aati Muhammadanil-wasilata wal-fadeelata wab-'athhu maqaman mahmoodanil-lazi wa'adtah",
+    ur_tr:"(درود شریف کے بعد یہ دعا پڑھیں) اے اللہ! اس پوری پکار کے رب اور قائم ہونے والی نماز کے رب! محمد ﷺ کو وسیلہ اور فضیلت عطا فرما، اور ان کو اس مقامِ محمود پر پہنچا جس کا تو نے ان سے وعدہ فرمایا ہے۔",
+    en_tr:"(Recite after sending blessings on the Prophet ﷺ) O Allah, Lord of this perfect call and of the establishing of prayer, grant Muhammad the intercession and favor, and raise him to the honored station You have promised him.",
+    ref:"بخاری: ۶۱۴"
+  },
+  {
+    en:"After the Fard Prayer", ur:"فرض نماز کے سلام کے بعد کی دعا",
+    ar:"بِسْمِ اللَّهِ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الرَّحْمَٰنُ الرَّحِيمُ اَللَّهُمَّ أَذْهِبْ عَنِّي الْهَمَّ وَالْحُزْنَ",
+    translit:"Bismillahil-lazi la ilaha illa Huwar-Rahmanur-Raheem, Allahumma adh-hib 'annil-hamma wal-huzn",
+    ur_tr:"(سلام کے بعد سر پر داہنا ہاتھ رکھ کر پڑھیں) میں نے اللہ کے نام کے ساتھ (نماز ختم کی) جس کے سوا کوئی معبود نہیں، جو رحمٰن و رحیم ہے۔ اے اللہ! تو مجھ سے فکر اور غم دور کردے۔",
+    en_tr:"(After the salam, place your right hand on your head and recite) In the name of Allah, besides whom there is no deity, the Most Compassionate, the Most Merciful. O Allah, remove worry and grief from me.",
+    ref:"مجمع الزوائد: ۱/۲۶۹"
+  },
+  {
+    en:"Seeking Peace After Prayer", ur:"استغفار کے بعد کی دعا",
+    ar:"اَللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
+    translit:"Allahumma anta-s-Salamu wa minka-s-salamu tabarakta ya Zal-Jalali wal-Ikram",
+    ur_tr:"(تین بار «اَسْتَغْفِرُ اللّٰہَ» کہنے کے بعد یہ پڑھیں) اے اللہ! تو سلامتی والا ہے اور تجھ ہی سے سلامتی ملتی ہے، تو بابرکت ہے، اے عظمت اور بزرگی والے!",
+    en_tr:"(After saying 'Astaghfirullah' three times, recite) O Allah, You are Peace and from You comes peace. Blessed are You, O Possessor of majesty and honor.",
+    ref:"نسائی: ۱۳۵۳"
+  },
+  {
+    en:"After Witr Prayer", ur:"نماز وتر کے بعد کی دعا",
+    ar:"سُبْحَانَ الْمَلِكِ الْقُدُّوسِ",
+    translit:"Subhanal-Malikil-Quddoos",
+    ur_tr:"میں پاکی بیان کرتا ہوں بادشاہ یعنی اللہ کی، جو نہایت پاک ہے۔ (تین مرتبہ پڑھیں، تیسری بار آواز بلند کریں۔)",
+    en_tr:"Glory be to the King, the Most Holy. (Recite three times, raising the voice on the third.)",
+    ref:"ابوداود: ۱۴۳۰"
+  },
+  {
+    en:"After Fajr & Maghrib", ur:"نمازِ فجر اور مغرب کے بعد کی دعا",
+    ar:"اَللَّهُمَّ أَجِرْنِي مِنَ النَّارِ",
+    translit:"Allahumma ajirni minan-nar",
+    ur_tr:"اے اللہ! مجھے دوزخ سے محفوظ فرما۔ (نبی ﷺ نے فرمایا: جو فجر اور مغرب کے بعد کسی سے بات کرنے سے پہلے سات بار یہ پڑھ لے، اس دن یا رات میں مر جائے تو دوزخ سے ضرور نجات ملے گی۔)",
+    en_tr:"O Allah, save me from the Fire. (The Prophet ﷺ said: whoever says this seven times after Fajr and after Maghrib before speaking to anyone, and dies that day or night, will be saved from the Fire.)",
+    ref:"ابوداود: ۵۰۷۹"
+  },
+  {
+    en:"Leaving the Home", ur:"گھر سے نکلنے کی دعا",
+    ar:"بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+    translit:"Bismillahi tawakkaltu 'alallah, la hawla wa la quwwata illa billah",
+    ur_tr:"میں اللہ کا نام لے کر نکلا، میں نے اللہ ہی پر بھروسہ کیا، گناہوں سے بچنے اور عبادت کرنے کی طاقت صرف اللہ ہی کی طرف سے ہے۔",
+    en_tr:"In the name of Allah, I place my trust in Allah; there is no power and no strength except with Allah.",
+    ref:"ترمذی: ۳۴۲۶"
+  },
+  {
+    en:"Entering the Home", ur:"گھر میں داخل ہونے کی دعا",
+    ar:"اَللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ الْمَوْلِجِ وَخَيْرَ الْمَخْرَجِ بِسْمِ اللَّهِ وَلَجْنَا وَبِسْمِ اللَّهِ خَرَجْنَا وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا",
+    translit:"Allahumma inni as'aluka khayral-mawlaji wa khayral-makhraji, bismillahi walajna wa bismillahi kharajna wa 'alallahi Rabbina tawakkalna",
+    ur_tr:"اے اللہ! میں تجھ سے اچھا داخل ہونا اور اچھا نکلنا مانگتا ہوں، اللہ کا نام لے کر ہم داخل ہوئے اور اللہ کا نام لے کر ہم نکلے، اور اللہ ہی پر جو ہمارا رب ہے بھروسہ کیا۔ (اس کے بعد گھر والوں کو سلام کریں۔)",
+    en_tr:"O Allah, I ask You for the best entrance and the best exit. In the name of Allah we enter, and in the name of Allah we leave, and upon Allah, our Lord, we place our trust. (Then greet your household with salam.)",
+    ref:"ابوداود: ۵۰۹۶"
+  },
+  {
+    en:"Entering the Market", ur:"بازار میں جانے کی دعا",
+    ar:"بِسْمِ اللَّهِ اَللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذِهِ السُّوقِ وَخَيْرَ مَا فِيهَا وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا فِيهَا",
+    translit:"Bismillah, Allahumma inni as'aluka khayra hazihis-suqi wa khayra ma feeha, wa a'udhu bika min sharriha wa sharri ma feeha",
+    ur_tr:"اللہ کے نام سے، اے اللہ! میں اس بازار کی اور اس میں جو کچھ ہے اس کی بھلائی مانگتا ہوں، اور تیری پناہ چاہتا ہوں اس کے شر سے اور اس میں جو کچھ ہے اس کے شر سے۔",
+    en_tr:"In the name of Allah. O Allah, I ask You for the good of this market and what is in it, and I seek refuge in You from its evil and the evil of what is in it.",
+    ref:"مستدرک حاکم: ۱۹۶۴"
+  },
+  {
+    en:"Before Eating", ur:"کھانا شروع کرنے کی دعا",
+    ar:"بِسْمِ اللَّهِ وَعَلَى بَرَكَةِ اللَّهِ",
+    translit:"Bismillahi wa 'ala barakatillah",
+    ur_tr:"میں اللہ کے نام سے اور اللہ کی برکت سے کھانا شروع کرتا ہوں۔",
+    en_tr:"In the name of Allah and with the blessing of Allah.",
+    ref:"مستدرک حاکم: ۷۰۸۳"
+  },
+  {
+    en:"If You Forgot Bismillah", ur:"شروع میں بسم اللہ کہنا بھول جائے تو",
+    ar:"بِسْمِ اللَّهِ أَوَّلَهُ وَآخِرَهُ",
+    translit:"Bismillahi awwalahu wa akhirah",
+    ur_tr:"میں نے اس کے شروع اور آخر میں اللہ کا نام لیا۔ (یاد آنے پر یہ کہیں۔ حدیث میں ہے: جس کھانے میں بسم اللہ نہ پڑھی جائے، شیطان کو اس میں سے کھانے کا موقع مل جاتا ہے۔)",
+    en_tr:"In the name of Allah at its beginning and its end. (Say this when you remember partway through. It is reported that if Bismillah is not said, Satan shares in that food.)",
+    ref:"مستدرک حاکم: ۷۰۸۹، مسلم: ۵۳۵۹"
+  },
+  {
+    en:"After Eating", ur:"کھانے کے بعد کی دعا",
+    ar:"الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مِنَ الْمُسْلِمِينَ",
+    translit:"Alhamdu lillahil-lazi at'amana wa saqana wa ja'alana minal-Muslimeen",
+    ur_tr:"سب تعریفیں اللہ ہی کے لیے ہیں جس نے ہمیں کھلایا اور پلایا اور ہمیں مسلمان بنایا۔",
+    en_tr:"All praise is for Allah who fed us, gave us drink, and made us Muslims.",
+    ref:"ترمذی: ۳۳۵۶"
+  },
+  {
+    en:"After Drinking Milk", ur:"دودھ پی کر پڑھنے کی دعا",
+    ar:"اَللَّهُمَّ بَارِكْ لَنَا فِيهِ وَزِدْنَا مِنْهُ",
+    translit:"Allahumma barik lana feehi wa zidna minh",
+    ur_tr:"اے اللہ! اس میں ہمارے لیے برکت دے اور یہ ہمیں زیادہ نصیب فرما۔",
+    en_tr:"O Allah, bless it for us and give us more of it.",
+    ref:"ترمذی: ۳۴۵۵"
+  },
+  {
+    en:"Eating at Someone's Invitation", ur:"دعوت میں کھانا کھانے کی دعا",
+    ar:"اَللَّهُمَّ أَطْعِمْ مَنْ أَطْعَمَنِي وَاسْقِ مَنْ سَقَانِي",
+    translit:"Allahumma at'im man at'amani was-qi man saqani",
+    ur_tr:"اے اللہ! جس نے مجھے کھلایا تو اسے کھلا، اور جس نے مجھے پلایا تو اسے پلا۔",
+    en_tr:"O Allah, feed the one who fed me, and give drink to the one who gave me drink.",
+    ref:"مسلم: ۵۳۶۲"
+  },
+  {
+    en:"Leaving the Host's Home", ur:"میزبان کے گھر سے رخصت ہوتے وقت کی دعا",
+    ar:"اَللَّهُمَّ بَارِكْ لَهُمْ فِيمَا رَزَقْتَهُمْ وَاغْفِرْ لَهُمْ وَارْحَمْهُمْ",
+    translit:"Allahumma barik lahum fima razaqtahum waghfir lahum warhamhum",
+    ur_tr:"اے اللہ! ان کے رزق میں برکت دے، ان کو بخش دے اور ان پر رحم فرما۔",
+    en_tr:"O Allah, bless them in what You have provided them, forgive them, and have mercy on them.",
+    ref:"ابوداود: ۳۸۲۹"
+  },
+  {
+    en:"Breaking the Fast", ur:"روزہ افطار کرنے کی دعا",
+    ar:"اَللَّهُمَّ لَكَ صُمْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ",
+    translit:"Allahumma laka sumtu wa 'ala rizqika aftartu",
+    ur_tr:"اے اللہ! میں نے تیرے ہی لیے روزہ رکھا اور تیرے ہی دیے ہوئے رزق سے روزہ کھولا۔",
+    en_tr:"O Allah, I fasted for You and I break my fast with Your provision.",
+    ref:"ابوداود: ۲۳۵۸"
+  },
+  {
+    en:"After Breaking the Fast", ur:"افطار کے بعد کی دعا",
+    ar:"ذَهَبَ الظَّمَأُ وَابْتَلَّتِ الْعُرُوقُ وَثَبَتَ الْأَجْرُ إِنْ شَاءَ اللَّهُ",
+    translit:"Zahabaz-zama'u wabtallatil-'urooqu wa thabatal-ajru inshaa'Allah",
+    ur_tr:"پیاس چلی گئی اور رگیں تر ہو گئیں، اور اللہ کے چاہنے سے ثواب ثابت ہو چکا۔",
+    en_tr:"The thirst has gone, the veins are moistened, and the reward is confirmed, if Allah wills.",
+    ref:"ابوداود: ۲۳۵۴"
+  },
+  {
+    en:"Breaking Fast at Someone's Home", ur:"کسی کے یہاں افطار کرنے کی دعا",
+    ar:"أَفْطَرَ عِنْدَكُمُ الصَّائِمُونَ وَأَكَلَ طَعَامَكُمُ الْأَبْرَارُ وَصَلَّتْ عَلَيْكُمُ الْمَلَائِكَةُ",
+    translit:"Aftara 'indakumus-sa'imoona wa akala ta'amakumul-abraru wa sallat 'alaykumul-mala'ikah",
+    ur_tr:"تمہارے پاس روزہ داروں نے افطار کیا اور نیک بندوں نے تمہارا کھانا کھایا، اور تم پر فرشتے رحمت بھیجیں۔",
+    en_tr:"May those who fast break their fast at your home, may the righteous eat your food, and may the angels send blessings upon you.",
+    ref:"ابوداود: ۳۸۵۳"
+  },
+  {
+    en:"Wearing New Clothes", ur:"کپڑا پہننے کی دعا",
+    ar:"الْحَمْدُ لِلَّهِ الَّذِي كَسَانِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِّنِّي وَلَا قُوَّةٍ",
+    translit:"Alhamdu lillahil-lazi kasani haza wa razaqanihi min ghayri hawlim-minni wa la quwwah",
+    ur_tr:"سب تعریفیں اللہ ہی کے لیے ہیں جس نے مجھے یہ کپڑا پہنایا اور بغیر میری کوشش اور طاقت کے مجھے یہ نصیب کیا۔",
+    en_tr:"All praise is for Allah who clothed me with this and provided it for me without any power or might of my own.",
+    ref:"ابوداود: ۴۰۲۳"
+  },
+  {
+    en:"When Wearing New Clothes", ur:"نیا کپڑا پہنتے وقت کی دعا",
+    ar:"اَللَّهُمَّ لَكَ الْحَمْدُ كَسَوْتَنِيهِ أَسْأَلُكَ خَيْرَهُ وَخَيْرَ مَا صُنِعَ لَهُ وَأَعُوذُ بِكَ مِنْ شَرِّهِ وَشَرِّ مَا صُنِعَ لَهُ",
+    translit:"Allahumma lakal-hamdu, kasawtaneehi, as'aluka khayrahu wa khayra ma suni'a lah, wa a'udhu bika min sharrihi wa sharri ma suni'a lah",
+    ur_tr:"اے اللہ! تیرے لیے سب تعریف ہے، تو نے ہی مجھے یہ پہنایا ہے، میں اس کی بھلائی اور جس کام کے لیے یہ بنایا گیا اس کی بھلائی تجھ سے مانگتا ہوں، اور اس کے شر اور جس کام کے لیے یہ بنایا گیا اس کے شر سے تیری پناہ چاہتا ہوں۔",
+    en_tr:"O Allah, all praise is for You. You have clothed me with this; I ask You for its good and the good of what it was made for, and I seek refuge in You from its evil and the evil of what it was made for.",
+    ref:"ابوداود: ۴۰۲۰"
+  },
+  {
+    en:"Seeking Refuge (General)", ur:"عمومی پناہ کی دعا",
+    ar:"أَسْأَلُكَ خَيْرَهَا وَخَيْرَ مَا جُعِلَتْ لَهُ وَأَعُوذُ بِكَ مِنْ شَرِّهَا وَشَرِّ مَا جُعِلَتْ لَهُ",
+    translit:"As'aluka khayraha wa khayra ma ju'ilat lah, wa a'udhu bika min sharriha wa sharri ma ju'ilat lah",
+    ur_tr:"میں تجھ سے اس چیز کی بھلائی اور جس کام کے لیے یہ بنائی گئی اس کی بھلائی کا سوال کرتا ہوں، اور اس کے شر اور جس کام کے لیے یہ بنائی گئی اس کے شر سے تیری پناہ چاہتا ہوں۔",
+    en_tr:"I ask You for its good and the good of what it was made for, and I seek refuge in You from its evil and the evil of what it was made for.",
+    ref:"ترمذی: ۱۷۶۷"
+  },
+  {
+    en:"Looking in the Mirror", ur:"آئینے میں چہرہ دیکھنے کی دعا",
+    ar:"اَللَّهُمَّ أَنْتَ حَسَّنْتَ خَلْقِي فَحَسِّنْ خُلُقِي",
+    translit:"Allahumma anta hassanta khalqi fahassin khuluqi",
+    ur_tr:"سب تعریفیں اللہ ہی کے لیے ہیں۔ اے اللہ! جیسے تو نے میری صورت اچھی بنائی ہے، میرے اخلاق بھی اچھے کردے۔",
+    en_tr:"O Allah, just as You have made my outward form good, make my character good as well.",
+    ref:"عمل الیوم واللیلۃ لابن السنی: ۲۶۳"
+  },
+  {
+    en:"Congratulating a Groom", ur:"دلہا کو مبارکباد دینے کی دعا",
+    ar:"بَارَكَ اللَّهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ",
+    translit:"Barakallahu laka wa baraka 'alayka wa jama'a baynakuma fi khayr",
+    ur_tr:"اللہ تجھے برکت دے اور تجھ پر برکت نازل کرے، اور تم دونوں کو خیر و بھلائی میں جمع رکھے۔",
+    en_tr:"May Allah bless you and shower blessings upon you, and unite you both in goodness.",
+    ref:"ترمذی: ۱۰۹۱"
+  },
+  {
+    en:"Seeking Forgiveness in Laylatul-Qadr", ur:"شب قدر میں مانگنے کی دعا",
+    ar:"اَللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
+    translit:"Allahumma innaka 'afuwwun tuhibbul-'afwa fa'fu 'anni",
+    ur_tr:"اے اللہ! تو معاف فرمانے والا ہے، معافی کو پسند فرماتا ہے، پس مجھے معاف فرما دے۔",
+    en_tr:"O Allah, You are Forgiving and love forgiveness, so forgive me.",
+    ref:"ترمذی: ۳۵۱۳"
+  },
+  {
+    en:"Sighting the New Moon", ur:"نیا چاند دیکھنے کی دعا",
+    ar:"اَللَّهُمَّ أَهِلَّهُ عَلَيْنَا بِالْيُمْنِ وَالْإِيمَانِ وَالسَّلَامَةِ وَالْإِسْلَامِ وَالتَّوْفِيقِ لِمَا تُحِبُّ وَتَرْضَى رَبِّي وَرَبُّكَ اللَّهُ",
+    translit:"Allahumma ahillahu 'alayna bil-yumni wal-imani was-salamati wal-Islami wat-tawfeeqi lima tuhibbu wa tarda, Rabbi wa Rabbukallah",
+    ur_tr:"اے اللہ! اس چاند کو ہم پر برکت، ایمان، سلامتی، اسلام اور ان اعمال کی توفیق کے ساتھ نکال جن سے تو راضی ہے۔ (اے چاند) میرا اور تیرا رب اللہ ہی ہے۔",
+    en_tr:"O Allah, bring this moon upon us with blessing, faith, safety, Islam, and the ability to do what You love and are pleased with. My Lord and your Lord is Allah.",
+    ref:"ترمذی: ۳۴۵۱"
+  },
+  {
+    en:"Seeing a Muslim Laugh", ur:"کسی مسلمان کو ہنستا دیکھ کر دعا دینا",
+    ar:"أَضْحَكَ اللَّهُ سِنَّكَ",
+    translit:"Adhakallahu sinnak",
+    ur_tr:"اللہ تجھے ہنساتا رہے۔",
+    en_tr:"May Allah keep you smiling/laughing.",
+    ref:"بخاری: ۳۶۸۳"
+  },
+  {
+    en:"Visiting a Sick Muslim", ur:"مریض کی عیادت کرتے وقت تسلی دینا",
+    ar:"لَا بَأْسَ طَهُورٌ إِنْ شَاءَ اللَّهُ",
+    translit:"La ba'sa, tahoorun inshaa'Allah",
+    ur_tr:"کچھ ڈر نہیں، اللہ کے چاہنے سے یہ بیماری تمہیں گناہوں سے پاک کرنے والی ہے۔",
+    en_tr:"No harm, it will be a purification, if Allah wills.",
+    ref:"بخاری: ۳۶۱۶"
+  },
+  {
+    en:"Before Travel (Riding Dua)", ur:"سواری پر بیٹھتے وقت کی دعا",
+    ar:"سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنقَلِبُونَ",
+    translit:"Subhanal-lazi sakhkhara lana haza wa ma kunna lahu muqrineen, wa inna ila Rabbina lamunqaliboon",
+    ur_tr:"پاک ہے وہ ذات جس نے اس (سواری) کو ہمارے لیے مسخر کیا، ورنہ ہم اسے قابو میں لانے والے نہ تھے، اور بے شک ہم اپنے رب ہی کی طرف لوٹ کر جانے والے ہیں۔",
+    en_tr:"Glory be to the One who has subjected this to us, for we could not have done it ourselves. And indeed, to our Lord we will return.",
+    ref:"الزخرف: ۱۳-۱۴"
+  },
+  {
+    en:"Stopping at a Place (Bus Stop / Station)", ur:"کسی منزل (بس اسٹاپ، ریلوے اسٹیشن) پر اترنے کی دعا",
+    ar:"أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+    translit:"A'udhu bikalimatillahit-tammati min sharri ma khalaq",
+    ur_tr:"اللہ کے پورے کلمات کے واسطے سے اللہ کی پناہ چاہتا ہوں اس کی مخلوق کے شر سے۔",
+    en_tr:"I seek refuge in the perfect words of Allah from the evil of what He has created.",
+    ref:"ترمذی: ۳۴۳۷"
+  },
+  {
+    en:"Entering a Graveyard", ur:"قبرستان میں جانے کی دعا",
+    ar:"اَلسَّلَامُ عَلَيْكُمْ يَا أَهْلَ الْقُبُورِ يَغْفِرُ اللَّهُ لَنَا وَلَكُمْ أَنْتُمْ سَلَفُنَا وَنَحْنُ بِالْأَثَرِ",
+    translit:"Assalamu 'alaykum ya ahlal-qubur, yaghfirullahu lana wa lakum, antum salafuna wa nahnu bil-athar",
+    ur_tr:"اے قبروں والو! تم پر سلامتی ہو، اللہ ہماری اور تمہاری مغفرت فرمائے، تم ہم سے پہلے جا چکے ہو اور ہم تمہارے پیچھے آنے والے ہیں۔",
+    en_tr:"Peace be upon you, O inhabitants of the graves. May Allah forgive us and you; you have gone before us, and we will follow.",
+    ref:"ترمذی: ۱۰۵۳"
+  },
+  {
+    en:"For Parents", ur:"والدین کے لیے دعا",
+    ar:"رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا",
+    translit:"Rabbir-hamhuma kama rabbayani sagheera",
+    ur_tr:"اے میرے رب! ان دونوں پر رحم فرما جیسا کہ انہوں نے بچپن میں میری پرورش کی۔",
+    en_tr:"My Lord, have mercy upon them as they brought me up when I was small.",
+    ref:"بنی اسرائیل: ۲۴"
+  },
+  {
+    en:"For Increase in Knowledge", ur:"علم میں اضافے کی دعا",
+    ar:"رَبِّ زِدْنِي عِلْمًا",
+    translit:"Rabbi zidni 'ilma",
+    ur_tr:"اے میرے رب! میرے علم میں اضافہ فرما۔",
+    en_tr:"My Lord, increase me in knowledge.",
+    ref:"طٰہٰ: ۱۱۴"
+  },
+  {
+    en:"For Ease in Affairs", ur:"کاموں میں آسانی کی دعا",
+    ar:"رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي",
+    translit:"Rabbish-rahli sadri wa yassir li amri",
+    ur_tr:"اے میرے رب! میرا سینہ کھول دے اور میرا کام میرے لیے آسان فرما۔",
+    en_tr:"My Lord, expand for me my chest and ease for me my task.",
+    ref:"طٰہٰ: ۲۵-۲۶"
+  },
+  {
+    en:"When it Rains", ur:"بارش کے وقت کی دعا",
+    ar:"اَللَّهُمَّ صَيِّبًا نَافِعًا",
+    translit:"Allahumma sayyiban nafi'a",
+    ur_tr:"اے اللہ! اسے نفع بخش بارش بنا دے۔",
+    en_tr:"O Allah, (make it) a beneficial rain.",
+    ref:"بخاری"
+  },
+  {
+    en:"When in Distress", ur:"پریشانی کے وقت کی دعا",
+    ar:"لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+    translit:"La ilaha illa Anta subhanaka inni kuntu minaz-zalimeen",
+    ur_tr:"تیرے سوا کوئی معبود نہیں، تو پاک ہے، بے شک میں ہی ظالموں میں سے تھا۔",
+    en_tr:"There is no deity except You; exalted are You. Indeed, I have been of the wrongdoers.",
+    ref:"الانبیاء: ۸۷"
+  },
+  {
+    en:"Seeking Forgiveness (Sayyidul Istighfar)", ur:"سید الاستغفار",
+    ar:"اَللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+    translit:"Allahumma anta Rabbi la ilaha illa Anta, khalaqtani wa ana 'abduka, wa ana 'ala 'ahdika wa wa'dika mastata'tu, a'udhu bika min sharri ma sana'tu, abu'u laka bini'matika 'alayya, wa abu'u bidhanbi faghfir li, fa innahu la yaghfirudh-dhunuba illa Anta",
+    ur_tr:"اے اللہ! تو میرا رب ہے، تیرے سوا کوئی معبود نہیں، تو نے مجھے پیدا کیا اور میں تیرا بندہ ہوں، اور میں حسبِ استطاعت تیرے عہد اور وعدے پر قائم ہوں، میں اپنے کیے ہوئے کاموں کی برائی سے تیری پناہ مانگتا ہوں، میں تیری ان نعمتوں کا اقرار کرتا ہوں جو مجھ پر ہیں، اور اپنے گناہ کا اقرار کرتا ہوں، پس تو مجھے بخش دے، کیونکہ تیرے سوا کوئی گناہ نہیں بخشتا۔",
+    en_tr:"O Allah, You are my Lord, none has the right to be worshipped except You. You created me and I am Your servant, and I abide by Your covenant and promise as best I can. I seek refuge in You from the evil of what I have done. I acknowledge Your favor upon me, and I acknowledge my sin, so forgive me, for none forgives sins except You.",
+    ref:"بخاری"
+  },
+];
+
+const duasList = document.getElementById('duasList');
+duasList.innerHTML = DUAS.map((d, i) => `
+  <div class="dua-card" data-idx="${i}">
+    <div class="dua-head">
+      <div class="dua-titles">
+        <div class="en">${d.en}</div>
+        <div class="ur">${d.ur}</div>
+      </div>
+      <div class="dua-chevron">▾</div>
+    </div>
+    <div class="dua-body">
+      <div class="dua-ar">${d.ar}</div>
+      <button class="listen-btn" data-listen-idx="${i}" data-listen-source="dua">🔊 سنیں (Listen)</button>
+      <div class="dua-translit">${d.translit}</div>
+      <div class="dua-ur-tr">${d.ur_tr}</div>
+      <div class="dua-en-tr">${d.en_tr}</div>
+      ${d.ref ? `<div class="dua-ref">حوالہ: ${d.ref}</div>` : ''}
+    </div>
+  </div>
+`).join('');
+
+duasList.querySelectorAll('.dua-card').forEach(card=>{
+  card.querySelector('.dua-head').addEventListener('click', ()=>{
+    card.classList.toggle('open');
+  });
+});
+
+/* ---------- Text-to-speech "Listen" buttons (duas + tasbeeh) ---------- */
+function speakArabic(text, btn){
+  if(!('speechSynthesis' in window)){
+    alert('Yeh device awaz mein parhne ko support nahi karta.');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'ar-SA';
+  utter.rate = 0.8;
+  const allBtns = document.querySelectorAll('.listen-btn');
+  allBtns.forEach(b=>{ b.classList.remove('speaking'); b.textContent = b.dataset.label || '🔊 سنیں (Listen)'; });
+  if(btn){
+    btn.dataset.label = btn.textContent;
+    btn.classList.add('speaking');
+    btn.textContent = '⏸ رک جائیں...';
+  }
+  utter.onend = ()=>{
+    if(btn){ btn.classList.remove('speaking'); btn.textContent = '🔊 سنیں (Listen)'; }
+  };
+  window.speechSynthesis.speak(utter);
+}
+
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.listen-btn');
+  if(!btn) return;
+  e.stopPropagation();
+  if(btn.classList.contains('speaking')){
+    window.speechSynthesis.cancel();
+    btn.classList.remove('speaking');
+    btn.textContent = '🔊 سنیں (Listen)';
+    return;
+  }
+  const source = btn.dataset.listenSource;
+  const idx = btn.dataset.listenIdx;
+  let text = '';
+  if(source === 'dua') text = DUAS[idx].ar;
+  else if(source === 'tasbeeh') text = (POPULAR_AZKAR.find(a=>a.id===idx) || {}).ar || '';
+  if(text) speakArabic(text, btn);
+});
+
+/* ============================================================
+   TASBEEH COUNTER
+   ============================================================ */
+const POPULAR_AZKAR = [
+  {id:'t1', cat:'حمد و ثنا', ar:'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ', ur:'اللہ پاک ہے اور اسی کی تعریف کے ساتھ۔'},
+  {id:'t2', cat:'توبہ و استغفار', ar:'أَسْتَغْفِرُ اللَّهَ', ur:'میں اللہ سے بخشش مانگتا ہوں۔'},
+  {id:'t3', cat:'کلمہ توحید', ar:'لَا إِلَٰهَ إِلَّا اللَّهُ', ur:'اللہ کے سوا کوئی معبود نہیں۔'},
+  {id:'t4', cat:'درود شریف', ar:'اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ', ur:'اے اللہ! محمد اور ان کی آل پر رحمت نازل فرما۔'},
+  {id:'t5', cat:'بھروسہ و توکل', ar:'حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ', ur:'ہمارے لیے اللہ کافی ہے اور وہ بہترین کارساز ہے۔'},
+  {id:'t6', cat:'طاقت و قوت', ar:'لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ', ur:'اللہ کی مدد کے بغیر نہ کوئی طاقت ہے نہ قوت۔'},
+  {id:'t7', cat:'تسبیح عظیم', ar:'سُبْحَانَ اللَّهِ الْعَظِيمِ وَبِحَمْدِهِ', ur:'اللہ بزرگ و برتر پاک ہے اور اسی کی تعریف کے ساتھ۔'},
+  {id:'t8', cat:'سلام پھیرنے کے بعد', ar:'سُبْحَانَ اللَّهِ (٣٣) الْحَمْدُ لِلَّهِ (٣٣) اللَّهُ أَكْبَرُ (٣٤)', ur:'نماز کے بعد کی مشہور تسبیح — سبحان اللہ، الحمدللہ، اللہ اکبر۔'},
+  {id:'t9', cat:'شکر گزاری', ar:'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ', ur:'تمام تعریفیں اللہ کے لیے ہیں جو سارے جہانوں کا رب ہے۔'},
+  {id:'t10', cat:'عظمتِ الٰہی', ar:'اللَّهُ أَكْبَرُ كَبِيرًا', ur:'اللہ سب سے بڑا ہے، بہت بڑا۔'},
+  {id:'t11', cat:'دعائے موسیٰ علیہ السلام (حاجت کے وقت)', ar:'رَبِّ إِنِّي لِمَا أَنزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ', ur:'اے میرے رب! جو بھلائی بھی تو میری طرف نازل فرمائے، میں اس کا محتاج ہوں۔'},
+];
+
+const TSB_ADDED_KEY = 'deenaasan_tasbeeh_added';
+const TSB_COUNT_PREFIX = 'deenaasan_tasbeeh_count_';
+
+function getAddedTasbeehIds(){
+  try{ return JSON.parse(localStorage.getItem(TSB_ADDED_KEY) || '[]'); }
+  catch(e){ return []; }
+}
+function saveAddedTasbeehIds(ids){
+  try{ localStorage.setItem(TSB_ADDED_KEY, JSON.stringify(ids)); }catch(e){}
+}
+function getTasbeehCount(id){
+  try{ return parseInt(localStorage.getItem(TSB_COUNT_PREFIX+id) || '0'); }catch(e){ return 0; }
+}
+function setTasbeehCount(id, val){
+  try{ localStorage.setItem(TSB_COUNT_PREFIX+id, String(val)); }catch(e){}
+}
+
+function renderPopularTasbeeh(){
+  const added = getAddedTasbeehIds();
+  const wrap = document.getElementById('tsbPopularList');
+  wrap.innerHTML = POPULAR_AZKAR.map(item => `
+    <div class="tsb-card">
+      <div class="tsb-cat">${item.cat}</div>
+      <div class="tsb-ar">${item.ar}</div>
+      <div class="tsb-ur">${item.ur}</div>
+      <div class="tsb-card-actions">
+        <button class="listen-btn" data-listen-idx="${item.id}" data-listen-source="tasbeeh">🔊 سنیں</button>
+        <button class="tsb-add-btn" data-id="${item.id}">${added.includes(item.id) ? '✓' : '+'}</button>
+      </div>
+    </div>
+  `).join('');
+  wrap.querySelectorAll('.tsb-add-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.dataset.id;
+      let ids = getAddedTasbeehIds();
+      if(ids.includes(id)){
+        ids = ids.filter(x=>x!==id);
+        btn.textContent = '+';
+      } else {
+        ids.push(id);
+        btn.textContent = '✓';
+      }
+      saveAddedTasbeehIds(ids);
+      renderMyTasbeeh();
+    });
+  });
+}
+
+function renderMyTasbeeh(){
+  const ids = getAddedTasbeehIds();
+  const wrap = document.getElementById('tsbMineList');
+  if(ids.length === 0){
+    wrap.innerHTML = `<p class="hint">Abhi koi zikr add nahi kiya. "Popular" tab se ➕ button dabayein.</p>`;
+    return;
+  }
+  wrap.innerHTML = ids.map(id=>{
+    const item = POPULAR_AZKAR.find(a=>a.id===id);
+    if(!item) return '';
+    const count = getTasbeehCount(id);
+    return `
+      <div class="tsb-mine-card" data-id="${id}">
+        <div class="tmc-text">
+          <div class="tmc-ar">${item.ar}</div>
+        </div>
+        <div class="tmc-count">${count}</div>
+        <button class="tmc-remove" data-remove="${id}" title="Remove">✕</button>
+      </div>
+    `;
+  }).join('');
+
+  wrap.querySelectorAll('.tsb-mine-card').forEach(card=>{
+    card.addEventListener('click', (e)=>{
+      if(e.target.closest('.tmc-remove')) return;
+      openCounter(card.dataset.id);
+    });
+  });
+  wrap.querySelectorAll('.tmc-remove').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      const id = btn.dataset.remove;
+      let ids2 = getAddedTasbeehIds().filter(x=>x!==id);
+      saveAddedTasbeehIds(ids2);
+      renderPopularTasbeeh();
+      renderMyTasbeeh();
+    });
+  });
+}
+
+document.querySelectorAll('.tsb-subtab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tsb-subtab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    const sub = tab.dataset.sub;
+    document.getElementById('tsbPopularList').style.display = sub === 'popular' ? '' : 'none';
+    document.getElementById('tsbMineList').style.display = sub === 'mine' ? '' : 'none';
+    if(sub === 'mine') renderMyTasbeeh();
+  });
+});
+
+let currentCounterId = null;
+function openCounter(id){
+  const item = POPULAR_AZKAR.find(a=>a.id===id);
+  if(!item) return;
+  currentCounterId = id;
+  document.getElementById('counterAr').textContent = item.ar;
+  document.getElementById('counterUr').textContent = item.ur;
+  document.getElementById('counterNumber').textContent = getTasbeehCount(id);
+  document.getElementById('tasbeehListWrap').style.display = 'none';
+  document.getElementById('tasbeehCounterWrap').style.display = 'block';
+}
+document.getElementById('counterTapBtn').addEventListener('click', ()=>{
+  if(!currentCounterId) return;
+  const newVal = getTasbeehCount(currentCounterId) + 1;
+  setTasbeehCount(currentCounterId, newVal);
+  document.getElementById('counterNumber').textContent = newVal;
+  if(navigator.vibrate) navigator.vibrate(15);
+});
+document.getElementById('counterResetBtn').addEventListener('click', ()=>{
+  if(!currentCounterId) return;
+  setTasbeehCount(currentCounterId, 0);
+  document.getElementById('counterNumber').textContent = 0;
+});
+document.getElementById('backFromCounter').addEventListener('click', ()=>{
+  document.getElementById('tasbeehCounterWrap').style.display = 'none';
+  document.getElementById('tasbeehListWrap').style.display = 'block';
+  renderMyTasbeeh();
+});
+
+renderPopularTasbeeh();
+renderMyTasbeeh();
+
+/* ============================================================
+   QIBLA DIRECTION
+   ============================================================ */
+const KAABA_LAT = 21.4225;
+const KAABA_LNG = 39.8262;
+let qiblaBearing = null;
+let deviceHeading = null;
+let compassActive = false;
+
+function toRad(deg){ return deg * Math.PI / 180; }
+function toDeg(rad){ return rad * 180 / Math.PI; }
+
+function calcQiblaBearing(lat, lng){
+  const φ1 = toRad(lat), φ2 = toRad(KAABA_LAT);
+  const Δλ = toRad(KAABA_LNG - lng);
+  const y = Math.sin(Δλ) * Math.cos(φ2);
+  const x = Math.cos(φ1)*Math.sin(φ2) - Math.sin(φ1)*Math.cos(φ2)*Math.cos(Δλ);
+  let θ = toDeg(Math.atan2(y, x));
+  return (θ + 360) % 360;
+}
+
+function calcDistanceKm(lat, lng){
+  const R = 6371;
+  const φ1 = toRad(lat), φ2 = toRad(KAABA_LAT);
+  const Δφ = toRad(KAABA_LAT - lat);
+  const Δλ = toRad(KAABA_LNG - lng);
+  const a = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
+  const c = 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return Math.round(R * c);
+}
+
+function updateCompassVisual(){
+  const rose = document.getElementById('compassRose');
+  const arrow = document.getElementById('qiblaArrow');
+  if(deviceHeading !== null){
+    rose.style.transform = `rotate(${-deviceHeading}deg)`;
+  }
+  if(qiblaBearing !== null){
+    arrow.style.transform = `translate(-50%,-50%) rotate(${qiblaBearing}deg)`;
+  }
+}
+
+function handleOrientation(event){
+  let heading = null;
+  if(typeof event.webkitCompassHeading === 'number'){
+    heading = event.webkitCompassHeading; // iOS: already true heading
+  } else if(event.alpha !== null && event.absolute){
+    heading = 360 - event.alpha;
+  } else if(event.alpha !== null){
+    heading = 360 - event.alpha; // best-effort on devices without 'absolute'
+  }
+  if(heading !== null){
+    deviceHeading = heading;
+    compassActive = true;
+    document.getElementById('compassStatusText').textContent = 'کمپاس فعال ہے — پھون کو فلیٹ رکھیں۔';
+    updateCompassVisual();
+  }
+}
+
+async function startCompass(){
+  if(typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
+    try{
+      const perm = await DeviceOrientationEvent.requestPermission();
+      if(perm !== 'granted'){
+        document.getElementById('compassStatusText').textContent = 'Compass permission نہیں ملی — صرف قبلہ کا زاویہ نیچے دیکھیں۔';
+        return;
+      }
+    }catch(e){
+      document.getElementById('compassStatusText').textContent = 'Compass دستیاب نہیں — صرف قبلہ کا زاویہ نیچے دیکھیں۔';
+      return;
+    }
+  }
+  window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+  window.addEventListener('deviceorientation', handleOrientation, true);
+  setTimeout(()=>{
+    if(!compassActive){
+      document.getElementById('compassStatusText').textContent = 'Is device par live compass دستیاب نہیں — نیچے دیا گیا زاویہ کسی قطب نما (compass) ایپ کے ساتھ ملائیں۔';
+    }
+  }, 2500);
+}
+
+document.getElementById('findQiblaBtn').addEventListener('click', ()=>{
+  if(!navigator.geolocation){
+    document.getElementById('qiblaInfoText').textContent = 'Location is device par support nahi hai.';
+    return;
+  }
+  document.getElementById('findQiblaBtn').textContent = 'لوکیشن معلوم کی جا رہی ہے...';
+  navigator.geolocation.getCurrentPosition(
+    (pos)=>{
+      const lat = pos.coords.latitude, lng = pos.coords.longitude;
+      qiblaBearing = calcQiblaBearing(lat, lng);
+      const distanceKm = calcDistanceKm(lat, lng);
+
+      document.getElementById('qiblaStart').style.display = 'none';
+      document.getElementById('qiblaResult').style.display = 'block';
+      document.getElementById('qiblaInfoText').innerHTML =
+        `قبلہ کا رخ شمال سے <b>${Math.round(qiblaBearing)}°</b> پر ہے<br>` +
+        `<span style="font-size:11px;">Kaaba se fasla: تقریباً ${distanceKm.toLocaleString()} کلومیٹر</span>`;
+      updateCompassVisual();
+      startCompass();
+    },
+    (err)=>{
+      document.getElementById('findQiblaBtn').textContent = '📍 قبلہ معلوم کریں (Find Qibla)';
+      document.getElementById('qiblaInfoText').textContent = 'Location permission نہیں ملی — براہ کرم اجازت دیں اور دوبارہ کوشش کریں۔';
+      document.getElementById('qiblaStart').style.display = 'none';
+      document.getElementById('qiblaResult').style.display = 'block';
+    }
+  );
+});
+
+/* ============================================================
+   HIJRI CALENDAR
+   ============================================================ */
+const today = new Date();
+let hijriCalMonth = today.getMonth() + 1;
+let hijriCalYear = today.getFullYear();
+let hijriLoadedOnce = false;
+
+const URDU_WEEKDAY_NAMES = ['اتوار','پیر','منگل','بدھ','جمعرات','جمعہ','ہفتہ'];
+
+// Islamic occasions keyed by "hijriMonthNumber-hijriDay"
+const ISLAMIC_EVENTS = {
+  '1-1': 'اسلامی نیا سال',
+  '1-10': 'یومِ عاشورا',
+  '3-12': 'میلاد النبی ﷺ',
+  '9-1': 'رمضان شروع',
+  '9-27': 'شبِ قدر (ممکنہ)',
+  '10-1': 'عید الفطر',
+  '12-8': 'یومِ ترویہ',
+  '12-9': 'یومِ عرفہ',
+  '12-10': 'عید الاضحی',
+};
+
+async function loadHijriCalendar(){
+  hijriLoadedOnce = true;
+  const grid = document.getElementById('hijriGrid');
+  grid.innerHTML = '<div class="loading">لوڈ ہو رہا ہے...</div>';
+  try{
+    const res = await fetch(`https://api.aladhan.com/v1/gToHCalendar/${hijriCalMonth}/${hijriCalYear}`);
+    const data = await res.json();
+    renderHijriCalendar(data.data);
+  }catch(err){
+    grid.innerHTML = `<div class="error-box">Calendar load nahi ho saka. Dobara koshish karein.<br><br>Could not load the calendar — please try again.</div>`;
+  }
+}
+
+function renderHijriCalendar(days){
+  const grid = document.getElementById('hijriGrid');
+  const todayStr = today.toLocaleDateString('en-GB').split('/').join('-'); // DD-MM-YYYY
+
+  // Title: hijri month of the 15th (mid-month) as the "primary" hijri month for this Gregorian month
+  const midDay = days[Math.min(14, days.length-1)];
+  document.getElementById('hijriMonthTitle').textContent =
+    `${midDay.hijri.month.ar} ${midDay.hijri.year} ھ`;
+  document.getElementById('gregMonthTitle').textContent =
+    new Date(hijriCalYear, hijriCalMonth-1, 1).toLocaleDateString('en-GB', {month:'long', year:'numeric'});
+
+  // Leading empty cells so the 1st lands on the correct weekday column
+  const firstDate = new Date(hijriCalYear, hijriCalMonth-1, 1);
+  const leadingEmpty = firstDate.getDay(); // 0=Sunday
+
+  let html = '';
+  for(let i=0;i<leadingEmpty;i++){ html += '<div class="hijri-day empty"></div>'; }
+
+  days.forEach(d=>{
+    const gDay = parseInt(d.gregorian.day);
+    const hDay = parseInt(d.hijri.day);
+    const hMonthNum = parseInt(d.hijri.month.number);
+    const isToday = d.gregorian.date === todayStr;
+    const eventKey = `${hMonthNum}-${hDay}`;
+    const eventName = ISLAMIC_EVENTS[eventKey];
+    html += `
+      <div class="hijri-day ${isToday ? 'is-today' : ''} ${eventName ? 'is-event' : ''}">
+        <div class="hd-hijri">${hDay}</div>
+        <div class="hd-greg">${gDay}</div>
+        ${eventName ? `<div class="hd-event-name">${eventName}</div>` : ''}
+      </div>
+    `;
+  });
+
+  grid.innerHTML = html;
+}
+
+document.getElementById('hijriPrevBtn').addEventListener('click', ()=>{
+  hijriCalMonth--;
+  if(hijriCalMonth < 1){ hijriCalMonth = 12; hijriCalYear--; }
+  loadHijriCalendar();
+});
+document.getElementById('hijriNextBtn').addEventListener('click', ()=>{
+  hijriCalMonth++;
+  if(hijriCalMonth > 12){ hijriCalMonth = 1; hijriCalYear++; }
+  loadHijriCalendar();
+});
+
+/* ============================================================
+   ZAKAT CALCULATOR
+   ============================================================ */
+const GOLD_NISAB_GRAMS = 87.48;
+const SILVER_NISAB_GRAMS = 612.36;
+const ZAKAT_RATE = 0.025;
+
+function numVal(id){
+  const v = parseFloat(document.getElementById(id).value);
+  return isNaN(v) ? 0 : v;
+}
+
+document.getElementById('calcZakatBtn').addEventListener('click', ()=>{
+  const goldPrice = numVal('goldPricePerGram');
+  const silverPrice = numVal('silverPricePerGram');
+  const basis = document.getElementById('nisabBasis').value;
+
+  const resultBox = document.getElementById('zakatResult');
+
+  if((basis === 'gold' && goldPrice <= 0) || (basis === 'silver' && silverPrice <= 0)){
+    resultBox.innerHTML = `<div class="error-box">Meherbani karke ${basis==='gold' ? 'sone' : 'chandi'} ki maujooda qeemat fi gram zaroor darj karein.<br><br>Please enter the current ${basis==='gold' ? 'gold' : 'silver'} price per gram.</div>`;
+    return;
+  }
+
+  const cash = numVal('zCash');
+  const goldValue = numVal('zGoldGrams') * (goldPrice || 0);
+  const silverValue = numVal('zSilverGrams') * (silverPrice || 0);
+  const business = numVal('zBusiness');
+  const investments = numVal('zInvestments');
+  const receivables = numVal('zReceivables');
+  const debts = numVal('zDebts');
+
+  const totalAssets = cash + goldValue + silverValue + business + investments + receivables;
+  const netWealth = totalAssets - debts;
+
+  const nisabValue = basis === 'gold'
+    ? GOLD_NISAB_GRAMS * goldPrice
+    : SILVER_NISAB_GRAMS * silverPrice;
+
+  const isEligible = netWealth >= nisabValue;
+  const zakatDue = isEligible ? netWealth * ZAKAT_RATE : 0;
+
+  const fmt = (n)=> Math.round(n).toLocaleString('en-US');
+
+  resultBox.innerHTML = `
+    <div class="zakat-result-card">
+      <div class="zr-label">${isEligible ? 'آپ کی زکوٰۃ بنتی ہے' : 'نصاب مکمل نہیں — زکوٰۃ واجب نہیں'}</div>
+      <div class="zr-amount">${isEligible ? fmt(zakatDue) : '0'}</div>
+      <div class="zr-note">
+        ${isEligible
+          ? 'yeh raqam aap ke kul maal ka 2.5% hai (bataye gaye currency mein).'
+          : `Aap ka kul maal (${fmt(netWealth)}) nisab (${fmt(nisabValue)}) se kam hai, is liye is waqt zakat واجب nahi.`}
+      </div>
+    </div>
+    <div class="zakat-breakdown">
+      <div class="zb-row"><span>نقدی (Cash)</span><span>${fmt(cash)}</span></div>
+      <div class="zb-row"><span>سونا (Gold value)</span><span>${fmt(goldValue)}</span></div>
+      <div class="zb-row"><span>چاندی (Silver value)</span><span>${fmt(silverValue)}</span></div>
+      <div class="zb-row"><span>کاروبار (Business)</span><span>${fmt(business)}</span></div>
+      <div class="zb-row"><span>سرمایہ کاری (Investments)</span><span>${fmt(investments)}</span></div>
+      <div class="zb-row"><span>واپس ملنے والی رقم (Receivables)</span><span>${fmt(receivables)}</span></div>
+      <div class="zb-row"><span>مجموعی مال (Total assets)</span><span>${fmt(totalAssets)}</span></div>
+      <div class="zb-row"><span>مائنس قرض (Minus debts)</span><span>-${fmt(debts)}</span></div>
+      <div class="zb-row"><span>خالص مال (Net wealth)</span><span>${fmt(netWealth)}</span></div>
+      <div class="zb-row"><span>نصاب (Nisab threshold)</span><span>${fmt(nisabValue)}</span></div>
+    </div>
+  `;
+  resultBox.scrollIntoView({behavior:'smooth', block:'nearest'});
+});
+
+/* ============================================================
+   QAZA NAMAZ TRACKER
+   ============================================================ */
+const QAZA_PRAYERS = [
+  {key:'fajr', en:'Fajr', ur:'فجر'},
+  {key:'dhuhr', en:'Dhuhr', ur:'ظہر'},
+  {key:'asr', en:'Asr', ur:'عصر'},
+  {key:'maghrib', en:'Maghrib', ur:'مغرب'},
+  {key:'isha', en:'Isha', ur:'عشاء'},
+];
+const QAZA_STORAGE_KEY = 'deenaasan_qaza_counts';
+
+function getQazaCounts(){
+  try{
+    return JSON.parse(localStorage.getItem(QAZA_STORAGE_KEY) || '{}');
+  }catch(e){ return {}; }
+}
+function saveQazaCounts(counts){
+  try{ localStorage.setItem(QAZA_STORAGE_KEY, JSON.stringify(counts)); }catch(e){}
+}
+
+function renderQazaList(){
+  const counts = getQazaCounts();
+  const list = document.getElementById('qazaList');
+  list.innerHTML = QAZA_PRAYERS.map(p => `
+    <div class="qaza-row">
+      <button class="qaza-btn minus" data-key="${p.key}" data-action="dec">−</button>
+      <div class="qr-name">
+        <div class="qr-en">${p.en}</div>
+        <div class="qr-ur">${p.ur}</div>
+      </div>
+      <div class="qr-count">${counts[p.key] || 0}</div>
+      <button class="qaza-btn plus" data-key="${p.key}" data-action="inc">+</button>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.qaza-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const key = btn.dataset.key;
+      const counts2 = getQazaCounts();
+      const current = counts2[key] || 0;
+      if(btn.dataset.action === 'inc'){
+        counts2[key] = current + 1;
+      } else {
+        counts2[key] = Math.max(0, current - 1);
+      }
+      saveQazaCounts(counts2);
+      renderQazaList();
+    });
+  });
+
+  updateQazaTotal(counts);
+}
+
+function updateQazaTotal(counts){
+  const total = QAZA_PRAYERS.reduce((sum,p)=> sum + (counts[p.key] || 0), 0);
+  document.getElementById('qazaTotal').innerHTML = `
+    <div class="qt-num">${total}</div>
+    <div class="qt-label">کل باقی قضا نمازیں</div>
+  `;
+}
+
+document.getElementById('qazaResetBtn').addEventListener('click', ()=>{
+  if(confirm('Kya aap sach mein sab qaza namazon ka hisaab reset karna chahte hain?')){
+    saveQazaCounts({});
+    renderQazaList();
+  }
+});
+
+/* ============================================================
+   LOCAL MASJID TIMES (community-submitted, Firestore-backed)
+   ============================================================ */
+const MASJID_PRAYERS = [
+  {key:'fajr', ur:'فجر'}, {key:'dhuhr', ur:'ظہر'}, {key:'asr', ur:'عصر'},
+  {key:'maghrib', ur:'مغرب'}, {key:'isha', ur:'عشاء'},
+];
+
+function notConfiguredNotice(){
+  return `<div class="masjid-notice">
+    Yeh feature abhi setup ho raha hai — thori dair mein dobara check karein۔<br><br>
+    This feature is still being set up — please check back soon.
+  </div>`;
+}
+
+async function searchMasjids(city){
+  const list = document.getElementById('masjidList');
+  if(!firebaseDb){
+    list.innerHTML = notConfiguredNotice();
+    return;
+  }
+  list.innerHTML = `<div class="loading">تلاش کیا جا رہا ہے...</div>`;
+  try{
+    const cityLower = city.trim().toLowerCase();
+    const snapshot = await firebaseDb.collection('masjids')
+      .where('cityLower', '==', cityLower)
+      .limit(30)
+      .get();
+
+    if(snapshot.empty){
+      list.innerHTML = `<div class="masjid-notice">Is ilaqe mein abhi koi masjid record nahi mili۔ Pehla add karne wale bunein!<br><br>No masjid found for this area yet — be the first to add one!</div>`;
+      return;
+    }
+    const docs = snapshot.docs.slice().sort((a,b)=>{
+      const ta = a.data().createdAt ? a.data().createdAt.toMillis() : 0;
+      const tb = b.data().createdAt ? b.data().createdAt.toMillis() : 0;
+      return tb - ta;
+    });
+    list.innerHTML = docs.map(doc=>{
+      const m = doc.data();
+      return `
+        <div class="masjid-card">
+          <div class="mc-name">${m.name}</div>
+          <div class="mc-city">📍 ${m.city}</div>
+          <div class="masjid-times-row">
+            ${MASJID_PRAYERS.map(p=>`
+              <div class="mt-item">
+                <div class="mt-name">${p.ur}</div>
+                <div class="mt-time">${m[p.key] || '—'}</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }).join('');
+  }catch(err){
+    list.innerHTML = `<div class="error-box">Masjid list load nahi ho saki. Dobara koshish karein.<br><br>Could not load masjid list — please try again.</div>`;
+  }
+}
+
+document.getElementById('searchMasjidBtn').addEventListener('click', ()=>{
+  const city = document.getElementById('masjidCitySearch').value.trim();
+  if(!city){
+    document.getElementById('masjidList').innerHTML = `<div class="error-box">Meherbani karke shehar ya ilaqe ka naam likhein.</div>`;
+    return;
+  }
+  searchMasjids(city);
+});
+
+document.getElementById('addMasjidBtn').addEventListener('click', ()=>{
+  document.getElementById('addMasjidForm').style.display = 'block';
+  document.getElementById('addMasjidForm').scrollIntoView({behavior:'smooth'});
+});
+document.getElementById('cancelMasjidBtn').addEventListener('click', ()=>{
+  document.getElementById('addMasjidForm').style.display = 'none';
+});
+
+document.getElementById('submitMasjidBtn').addEventListener('click', async ()=>{
+  if(!firebaseDb){
+    alert('Yeh feature abhi setup ho raha hai۔ This feature is still being set up.');
+    return;
+  }
+  const name = document.getElementById('newMasjidName').value.trim();
+  const city = document.getElementById('newMasjidCity').value.trim();
+  const fajr = document.getElementById('newMasjidFajr').value.trim();
+  const dhuhr = document.getElementById('newMasjidDhuhr').value.trim();
+  const asr = document.getElementById('newMasjidAsr').value.trim();
+  const maghrib = document.getElementById('newMasjidMaghrib').value.trim();
+  const isha = document.getElementById('newMasjidIsha').value.trim();
+
+  if(!name || !city){
+    alert('Meherbani karke masjid ka naam aur shehar/ilaqa zaroor likhein۔');
+    return;
+  }
+
+  const submitBtn = document.getElementById('submitMasjidBtn');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Shamil ho raha hai...';
+
+  try{
+    await firebaseDb.collection('masjids').add({
+      name, city,
+      cityLower: city.toLowerCase(),
+      fajr, dhuhr, asr, maghrib, isha,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    document.getElementById('addMasjidForm').style.display = 'none';
+    ['newMasjidName','newMasjidCity','newMasjidFajr','newMasjidDhuhr','newMasjidAsr','newMasjidMaghrib','newMasjidIsha']
+      .forEach(id => document.getElementById(id).value = '');
+    document.getElementById('masjidCitySearch').value = city;
+    searchMasjids(city);
+  }catch(err){
+    alert('Masjid shamil nahi ho saki, dobara koshish karein۔ Could not add masjid, please try again.');
+  }finally{
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Shamil Karein';
+  }
+});
+
+/* ============================================================
+   GROUP KHATM TRACKER (community-shared, Firestore-backed)
+   ============================================================ */
+const KHATM_MY_GROUPS_KEY = 'deenaasan_khatm_my_groups'; // array of {id, name, code}
+let currentKhatmGroupId = null;
+
+function getMyKhatmGroups(){
+  try{ return JSON.parse(localStorage.getItem(KHATM_MY_GROUPS_KEY) || '[]'); }
+  catch(e){ return []; }
+}
+function saveMyKhatmGroups(groups){
+  try{ localStorage.setItem(KHATM_MY_GROUPS_KEY, JSON.stringify(groups)); }catch(e){}
+}
+function addMyKhatmGroup(id, name, code){
+  const groups = getMyKhatmGroups();
+  if(!groups.find(g=>g.id===id)){
+    groups.unshift({id, name, code});
+    saveMyKhatmGroups(groups);
+  }
+}
+function generateKhatmCode(){
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = '';
+  for(let i=0;i<6;i++) code += chars[Math.floor(Math.random()*chars.length)];
+  return code;
+}
+
+function showKhatmEntry(){
+  document.getElementById('khatmGroupWrap').style.display = 'none';
+  document.getElementById('khatmEntryWrap').style.display = 'block';
+  renderMyKhatmGroupsList();
+}
+
+function renderMyKhatmGroupsList(){
+  const wrap = document.getElementById('myKhatmGroupsWrap');
+  const groups = getMyKhatmGroups();
+  if(groups.length === 0){ wrap.innerHTML = ''; return; }
+  wrap.innerHTML = `
+    <div class="section-head" style="margin-top:20px;">
+      <h2>My Groups</h2>
+      <span class="ur-h">میرے گروپس</span>
+    </div>
+  ` + groups.map(g => `
+    <div class="khatm-my-group-card" data-id="${g.id}">
+      <div class="kmg-name">${g.name}</div>
+      <div class="kmg-progress" id="kmgProgress-${g.id}">...</div>
+    </div>
+  `).join('');
+
+  wrap.querySelectorAll('.khatm-my-group-card').forEach(card=>{
+    card.addEventListener('click', ()=> openKhatmGroup(card.dataset.id));
+    // fetch quick progress preview
+    if(firebaseDb){
+      firebaseDb.collection('khatm_groups').doc(card.dataset.id).get().then(doc=>{
+        if(!doc.exists) return;
+        const paras = doc.data().paras || {};
+        const done = Object.values(paras).filter(Boolean).length;
+        const el = document.getElementById('kmgProgress-'+card.dataset.id);
+        if(el) el.textContent = `${done}/30`;
+      }).catch(()=>{});
+    }
+  });
+}
+
+if(!firebaseDb){
+  // keep entry screen usable but show notice lazily when actions are attempted
+}
+
+document.getElementById('createKhatmBtn').addEventListener('click', async ()=>{
+  if(!firebaseDb){ alert('Yeh feature abhi setup ho raha hai۔'); return; }
+  const name = document.getElementById('newKhatmName').value.trim();
+  if(!name){ alert('Meherbani karke group ka naam likhein۔'); return; }
+
+  const btn = document.getElementById('createKhatmBtn');
+  btn.disabled = true; btn.textContent = 'Ban raha hai...';
+  try{
+    const code = generateKhatmCode();
+    const emptyParas = {};
+    for(let i=1;i<=30;i++) emptyParas[i] = false;
+    const docRef = await firebaseDb.collection('khatm_groups').add({
+      name, code, paras: emptyParas,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    addMyKhatmGroup(docRef.id, name, code);
+    document.getElementById('newKhatmName').value = '';
+    openKhatmGroup(docRef.id);
+  }catch(err){
+    alert('Group nahi ban saka, dobara koshish karein۔');
+  }finally{
+    btn.disabled = false; btn.textContent = '➕ Naya Group Banayein';
+  }
+});
+
+document.getElementById('joinKhatmBtn').addEventListener('click', async ()=>{
+  if(!firebaseDb){ alert('Yeh feature abhi setup ho raha hai۔'); return; }
+  const code = document.getElementById('joinKhatmCode').value.trim().toUpperCase();
+  if(!code){ alert('Meherbani karke group code likhein۔'); return; }
+
+  const btn = document.getElementById('joinKhatmBtn');
+  btn.disabled = true; btn.textContent = 'Dhoonda ja raha hai...';
+  try{
+    const snapshot = await firebaseDb.collection('khatm_groups').where('code','==',code).limit(1).get();
+    if(snapshot.empty){
+      alert('Yeh code nahi mila۔ Dobara check karein۔');
+      return;
+    }
+    const doc = snapshot.docs[0];
+    addMyKhatmGroup(doc.id, doc.data().name, doc.data().code);
+    document.getElementById('joinKhatmCode').value = '';
+    openKhatmGroup(doc.id);
+  }catch(err){
+    alert('Group dhoondne mein masla hua، dobara koshish karein۔');
+  }finally{
+    btn.disabled = false; btn.textContent = '🔑 Group Join Karein';
+  }
+});
+
+async function openKhatmGroup(groupId){
+  if(!firebaseDb) return;
+  currentKhatmGroupId = groupId;
+  document.getElementById('khatmEntryWrap').style.display = 'none';
+  document.getElementById('khatmGroupWrap').style.display = 'block';
+  document.getElementById('khatmParaGrid').innerHTML = `<div class="loading">لوڈ ہو رہا ہے...</div>`;
+
+  try{
+    const doc = await firebaseDb.collection('khatm_groups').doc(groupId).get();
+    if(!doc.exists){
+      document.getElementById('khatmParaGrid').innerHTML = `<div class="error-box">Yeh group nahi mila۔</div>`;
+      return;
+    }
+    renderKhatmGroup(doc.data());
+  }catch(err){
+    document.getElementById('khatmParaGrid').innerHTML = `<div class="error-box">Load nahi ho saka، dobara koshish karein۔</div>`;
+  }
+}
+
+function renderKhatmGroup(data){
+  document.getElementById('khatmGroupName').textContent = data.name;
+  document.getElementById('khatmGroupCode').textContent = data.code;
+
+  const paras = data.paras || {};
+  const done = Object.values(paras).filter(Boolean).length;
+  document.getElementById('khatmProgressFill').style.width = `${(done/30)*100}%`;
+  document.getElementById('khatmProgressText').textContent = `${done} / 30 Para مکمل`;
+
+  const grid = document.getElementById('khatmParaGrid');
+  grid.innerHTML = '';
+  for(let i=1;i<=30;i++){
+    const isDone = !!paras[i];
+    const tile = document.createElement('div');
+    tile.className = 'khatm-para-tile' + (isDone ? ' done' : '');
+    tile.textContent = i;
+    tile.addEventListener('click', ()=> toggleKhatmPara(i, !isDone));
+    grid.appendChild(tile);
+  }
+}
+
+async function toggleKhatmPara(paraNum, newValue){
+  if(!currentKhatmGroupId || !firebaseDb) return;
+  try{
+    await firebaseDb.collection('khatm_groups').doc(currentKhatmGroupId).update({
+      [`paras.${paraNum}`]: newValue
+    });
+    const doc = await firebaseDb.collection('khatm_groups').doc(currentKhatmGroupId).get();
+    renderKhatmGroup(doc.data());
+  }catch(err){
+    alert('Update save nahi hui، dobara koshish karein۔');
+  }
+}
+
+document.getElementById('khatmShareBtn').addEventListener('click', ()=>{
+  const code = document.getElementById('khatmGroupCode').textContent;
+  const shareText = `Hamare Quran Khatm group mein shamil hon! Deen Aasan app kholein > More > Group Khatm Tracker > Join Group, aur yeh code likhein: ${code}`;
+  if(navigator.share){
+    navigator.share({title:'Quran Khatm Group', text: shareText}).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(shareText).then(()=>{
+      alert('Code copy ho gaya! Kahin bhi paste kar ke dost ko bhej dein۔');
+    }).catch(()=>{
+      alert('Group Code: ' + code);
+    });
+  }
+});
+
+document.getElementById('backFromKhatmGroup').addEventListener('click', showKhatmEntry);
+
+/* ============================================================
+   DIL KI KAIFIYAT (Mood-based Ayat/Dua)
+   ============================================================ */
+const MOODS = [
+  {
+    id:'anxious', emoji:'😟', en:'Anxious / Worried', ur:'پریشان',
+    ar:"أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+    ur_tr:"سن لو! اللہ کے ذکر سے ہی دلوں کو اطمینان ملتا ہے۔",
+    ref:"الرعد: ۲۸",
+    note:"Jab dil bohat pareshan ho, to thoda ruk kar sukoon se allah ka zikr karein — «سبحان اللہ»، «الحمدللہ»، ya bas «اللہ» ka naam le kar sans lein. Yeh pareshani foran khatam nahi karega, lekin dil ko sahara zaroor dega۔"
+  },
+  {
+    id:'sad', emoji:'😢', en:'Sad', ur:'غمگین',
+    ar:"إِنَّمَا أَشْكُو بَثِّي وَحُزْنِي إِلَى اللَّهِ",
+    ur_tr:"میں تو اپنی پریشانی اور غم کی فریاد صرف اللہ ہی سے کرتا ہوں۔",
+    ref:"یوسف: ۸۶",
+    note:"Hazrat Yaqoob علیہ السلام ne apna gham Allah ke saamne rakha, kisi aur ke saamne nahi۔ Aap ka gham bhi seedha Allah tak pohnchta hai — dua mein khul kar ro lein, sharminda na hon۔"
+  },
+  {
+    id:'hopeless', emoji:'😞', en:'Hopeless / Despair', ur:'مایوس',
+    ar:"لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ إِنَّ اللَّهَ يَغْفِرُ الذُّنُوبَ جَمِيعًا",
+    ur_tr:"اللہ کی رحمت سے مایوس مت ہو، بے شک اللہ سارے گناہ بخش دیتا ہے۔",
+    ref:"الزمر: ۵۳",
+    note:"Chahe kuch bhi ho chuka ho, Allah ki rehmat se umeed nahi todhni۔ Yeh ayat khaas taur par un logon ke liye nazil hui jo apne aap ko bohat gunahgaar samajhte hain — Allah ka darwaza hamesha khula hai۔"
+  },
+  {
+    id:'grateful', emoji:'🤲', en:'Grateful', ur:'شکر گزار',
+    ar:"وَإِذْ تَأَذَّنَ رَبُّكُمْ لَئِن شَكَرْتُمْ لَأَزِيدَنَّكُمْ",
+    ur_tr:"اور یاد کرو جب تمہارے رب نے اعلان کیا کہ اگر تم شکر کرو گے تو میں تمہیں ضرور زیادہ دوں گا۔",
+    ref:"ابراہیم: ۷",
+    note:"Shukar ada karne ka sab se acha tareeqa yeh hai ke jo mila hai us par «الحمدللہ» kahein aur zaban se bhi izhaar karein۔ Allah ka wada hai ke shukar karne walon ko aur ata farmata hai۔"
+  },
+  {
+    id:'angry', emoji:'😠', en:'Angry', ur:'غصہ',
+    ar:"لَيْسَ الشَّدِيدُ بِالصُّرَعَةِ إِنَّمَا الشَّدِيدُ الَّذِي يَمْلِكُ نَفْسَهُ عِنْدَ الْغَضَبِ",
+    ur_tr:"طاقتور وہ نہیں جو کشتی میں دوسروں کو پچھاڑ دے، بلکہ طاقتور وہ ہے جو غصے کے وقت اپنے آپ پر قابو رکھے۔",
+    ref:"بخاری، مسلم",
+    note:"Nabi ﷺ ne farmaya: jab ghussa aaye to wazu kar lo, agar khare ho to baith jao, agar baithe ho to leit jao۔ Chhota sa amal hai magar bohat asar rakhta hai۔"
+  },
+  {
+    id:'scared', emoji:'😰', en:'Scared / Fearful', ur:'خوفزدہ',
+    ar:"حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
+    ur_tr:"ہمارے لیے اللہ کافی ہے اور وہ بہترین کارساز ہے۔",
+    ref:"آل عمران: ۱۷۳",
+    note:"Yeh wohi kalimaat hain jo Hazrat Ibrahim علیہ السلام ne aag mein daale jaate waqt kahe۔ Jis khauf mein bhi ho, Allah par bharosa rakhein — Woh sab se behtar madadgaar hai۔"
+  },
+  {
+    id:'guidance', emoji:'🧭', en:'Need Guidance', ur:'رہنمائی چاہیے',
+    ar:"اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+    ur_tr:"ہمیں سیدھے راستے کی ہدایت فرما۔",
+    ref:"الفاتحہ: ۶",
+    note:"Yeh dua har namaz mein kam az kam 17 baar parhte hain — Allah se seedhi raah maangna sab se bara amal hai۔ Faisla mushkil ho to Salat-ul-Istikhara bhi parh sakte hain۔"
+  },
+  {
+    id:'lonely', emoji:'🫂', en:'Lonely', ur:'تنہا',
+    ar:"وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ",
+    ur_tr:"اور وہ تمہارے ساتھ ہے، تم جہاں کہیں بھی ہو۔",
+    ref:"الحدید: ۴",
+    note:"Chahe koi paas na ho, Allah har waqt sath hai — dekh raha hai, sun raha hai۔ Tanhai mein bhi dua karna ek aisi guftagu hai jo kabhi ignore nahi hoti۔"
+  },
+];
+
+function renderMoodGrid(){
+  const grid = document.getElementById('moodGrid');
+  grid.innerHTML = MOODS.map(m => `
+    <div class="mood-tile" data-id="${m.id}">
+      <div class="mt-emoji">${m.emoji}</div>
+      <div class="mt-en">${m.en}</div>
+      <div class="mt-ur">${m.ur}</div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.mood-tile').forEach(tile=>{
+    tile.addEventListener('click', ()=> showMoodResult(tile.dataset.id));
+  });
+}
+
+function showMoodResult(moodId){
+  const m = MOODS.find(x=>x.id===moodId);
+  if(!m) return;
+  document.getElementById('moodPickerWrap').style.display = 'none';
+  document.getElementById('moodResultWrap').style.display = 'block';
+  document.getElementById('moodResultCard').innerHTML = `
+    <div class="mr-ar">${m.ar}</div>
+    <div class="mr-ur">${m.ur_tr}</div>
+    <div class="mr-note">${m.note}</div>
+    <div class="mr-ref">حوالہ: ${m.ref}</div>
+  `;
+}
+
+document.getElementById('backFromMoodResult').addEventListener('click', ()=>{
+  document.getElementById('moodResultWrap').style.display = 'none';
+  document.getElementById('moodPickerWrap').style.display = 'block';
+});
+
+renderMoodGrid();
+
+/* ============================================================
+   NAZRA — Arabic Harf (kids' letter learning module)
+   ============================================================ */
+const NAZRA_LETTERS = [
+  {ar:'ا', ur:'الف'}, {ar:'ب', ur:'بے'}, {ar:'ت', ur:'تے'}, {ar:'ث', ur:'ثے'},
+  {ar:'ج', ur:'جیم'}, {ar:'ح', ur:'حے'}, {ar:'خ', ur:'خے'}, {ar:'د', ur:'دال'},
+  {ar:'ذ', ur:'ذال'}, {ar:'ر', ur:'رے'}, {ar:'ز', ur:'زے'}, {ar:'س', ur:'سین'},
+  {ar:'ش', ur:'شین'}, {ar:'ص', ur:'صاد'}, {ar:'ض', ur:'ضاد'}, {ar:'ط', ur:'طوے'},
+  {ar:'ظ', ur:'ظوے'}, {ar:'ع', ur:'عین'}, {ar:'غ', ur:'غین'}, {ar:'ف', ur:'فے'},
+  {ar:'ق', ur:'قاف'}, {ar:'ك', ur:'کاف'}, {ar:'ل', ur:'لام'}, {ar:'م', ur:'میم'},
+  {ar:'ن', ur:'نون'}, {ar:'و', ur:'واؤ'}, {ar:'ه', ur:'چھوٹی ہے'}, {ar:'ي', ur:'یے'},
+];
+const NAZRA_LEARNED_KEY = 'deenaasan_nazra_learned';
+
+function getNazraLearned(){
+  try{ return JSON.parse(localStorage.getItem(NAZRA_LEARNED_KEY) || '[]'); }
+  catch(e){ return []; }
+}
+function saveNazraLearned(arr){
+  try{ localStorage.setItem(NAZRA_LEARNED_KEY, JSON.stringify(arr)); }catch(e){}
+}
+
+function renderNazraGrid(){
+  const learned = getNazraLearned();
+  const grid = document.getElementById('nazraGrid');
+  grid.innerHTML = NAZRA_LETTERS.map((l,i) => `
+    <div class="nazra-tile ${learned.includes(i) ? 'learned' : ''}" data-idx="${i}">
+      <div class="nz-check" data-check-idx="${i}">${learned.includes(i) ? '✓' : ''}</div>
+      <div class="nz-letter">${l.ar}</div>
+      <div class="nz-name">${l.ur}</div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.nazra-tile').forEach(tile=>{
+    tile.addEventListener('click', (e)=>{
+      const idx = parseInt(tile.dataset.idx);
+      if(e.target.closest('.nz-check')){
+        let learned2 = getNazraLearned();
+        if(learned2.includes(idx)){
+          learned2 = learned2.filter(x=>x!==idx);
+        } else {
+          learned2.push(idx);
+        }
+        saveNazraLearned(learned2);
+        renderNazraGrid();
+      } else {
+        speakArabic(NAZRA_LETTERS[idx].ar, null);
+      }
+    });
+  });
+
+  updateNazraProgress(learned);
+}
+
+function updateNazraProgress(learned){
+  const pct = (learned.length / NAZRA_LETTERS.length) * 100;
+  document.getElementById('nazraProgressFill').style.width = pct + '%';
+  document.getElementById('nazraProgressText').textContent = `${learned.length} / ${NAZRA_LETTERS.length} حروف یاد ہو چکے`;
+}
+
+/* ============================================================
+   BEDTIME STORIES
+   ============================================================ */
+const BEDTIME_STORIES = [
+  {
+    emoji:'🔥', title:'حضرت ابراہیم علیہ السلام اور بت',
+    text:`بہت پرانے زمانے کی بات ہے۔ حضرت ابراہیم علیہ السلام کی قوم پتھر کے بت بنا کر ان کی پوجا کرتی تھی۔ حضرت ابراہیم علیہ السلام کو یہ بات بہت عجیب لگتی — بھلا پتھر کی مورتیاں کسی کی مدد کیسے کر سکتی ہیں؟
+
+ایک دن جب سارے لوگ میلے پر گئے ہوئے تھے، حضرت ابراہیم علیہ السلام بتخانے میں گئے اور سب سے بڑے بت کے سوا باقی سارے بت توڑ دیے۔ کلہاڑی انہوں نے بڑے بت کے کندھے پر رکھ دی۔
+
+جب لوگ واپس آئے تو بہت غصے میں آ گئے۔ انہوں نے پوچھا: "یہ کس نے کیا؟" حضرت ابراہیم علیہ السلام نے مسکراتے ہوئے کہا: "شاید اسی بڑے بت نے کیا ہو، اسی سے پوچھ لو!"
+
+لوگ شرمندہ ہو گئے، کیونکہ وہ جانتے تھے کہ بت بول نہیں سکتے۔ تب حضرت ابراہیم علیہ السلام نے فرمایا: پھر تم ایسی چیزوں کی پوجا کیوں کرتے ہو جو نہ بول سکیں نہ سن سکیں؟
+
+سبق: اللہ کے سوا کوئی بھی ہماری مدد نہیں کر سکتا، اور سچائی کہنے سے کبھی نہیں ڈرنا چاہیے۔`,
+    ref:"الانبیاء: ۵۱-۷۰"
+  },
+  {
+    emoji:'🐋', title:'حضرت یونس علیہ السلام اور مچھلی',
+    text:`حضرت یونس علیہ السلام اپنی قوم کو اللہ کی طرف بلاتے تھے، مگر لوگ نہیں مانے۔ وہ ناراض ہو کر ایک کشتی میں بیٹھ گئے اور اللہ سے اجازت لیے بغیر شہر چھوڑ دیا۔
+
+سمندر میں طوفان آ گیا۔ کشتی والوں نے کہا: کسی ایک کو سمندر میں پھینکنا ہوگا ورنہ کشتی ڈوب جائے گی۔ قرعہ اندازی ہوئی تو حضرت یونس علیہ السلام کا نام نکلا، اور وہ سمندر میں کود گئے۔
+
+اللہ تعالیٰ نے ایک بڑی مچھلی بھیجی جس نے انہیں نگل لیا، مگر اللہ کے حکم سے مچھلی نے انہیں نقصان نہ پہنچایا۔ مچھلی کے پیٹ کے اندھیرے میں حضرت یونس علیہ السلام نے دعا کی:
+
+"لَا إِلَٰهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ" (تیرے سوا کوئی معبود نہیں، تو پاک ہے، بے شک میں ہی ظالموں میں سے تھا)
+
+اللہ نے ان کی دعا قبول کی اور مچھلی نے انہیں ساحل پر اگل دیا۔
+
+سبق: جب بھی مشکل میں ہوں، اللہ سے معافی مانگیں اور صبر کریں — اللہ ضرور مدد فرماتا ہے۔`,
+    ref:"الصافات: ۱۳۹-۱۴۸"
+  },
+  {
+    emoji:'🕋', title:'اصحاب کہف — غار والے نوجوان',
+    text:`بہت عرصہ پہلے کچھ نوجوان تھے جو اللہ پر ایمان لائے تھے، مگر ان کے شہر کا بادشاہ ظالم تھا اور بتوں کی پوجا کرواتا تھا۔ ان نوجوانوں نے اپنا ایمان بچانے کے لیے شہر چھوڑ دیا اور ایک غار میں پناہ لی۔
+
+انہوں نے دعا کی: "اے ہمارے رب! ہمیں اپنی رحمت عطا فرما اور ہمارے معاملے میں درستگی پیدا کر۔"
+
+اللہ تعالیٰ نے ان پر نیند طاری کر دی، اور وہ سینکڑوں سال تک اس غار میں سوتے رہے۔ ان کا کتا بھی غار کے دروازے پر ان کی حفاظت کرتا رہا۔
+
+جب وہ جاگے تو انہیں لگا بس تھوڑی دیر سوئے تھے۔ ایک ساتھی کھانا لینے شہر گیا تو لوگ حیران رہ گئے — اتنے سال پرانے سکے! تب انہیں پتا چلا کہ کتنا وقت گزر چکا ہے۔
+
+سبق: جو لوگ اپنے ایمان پر ڈٹے رہتے ہیں اور اللہ پر بھروسہ کرتے ہیں، اللہ ان کی حفاظت فرماتا ہے۔`,
+    ref:"الکہف: ۹-۲۶"
+  },
+  {
+    emoji:'⭐', title:'نبی کریم ﷺ — الامین (سچے اور امانت دار)',
+    text:`نبوت سے پہلے بھی مکہ کے لوگ نبی کریم ﷺ کو "الامین" یعنی امانت دار کہتے تھے، کیونکہ آپ ﷺ کبھی جھوٹ نہیں بولتے تھے اور جو امانت رکھی جاتی، اسے صحیح سلامت واپس کرتے۔
+
+ایک واقعہ مشہور ہے: خانہ کعبہ کی تعمیر ہو رہی تھی، اور حجرِ اسود (کالا پتھر) کو اپنی جگہ رکھنے پر جھگڑا ہو گیا — ہر قبیلہ چاہتا تھا کہ یہ اعزاز اسے ملے۔ بات اتنی بڑھ گئی کہ لڑائی کا خطرہ پیدا ہو گیا۔
+
+تب کسی نے تجویز دی: جو بھی کل صبح سب سے پہلے آئے، فیصلہ اسی پر چھوڑ دیا جائے۔ صبح سب نے دیکھا کہ نبی کریم ﷺ آ رہے ہیں۔ سب خوش ہو گئے کیونکہ سب آپ ﷺ پر بھروسہ کرتے تھے۔
+
+آپ ﷺ نے ایک چادر بچھائی، پتھر اس پر رکھا، اور ہر قبیلے کے سردار سے چادر کا ایک کونا پکڑوا کر سب سے مل کر پتھر کو اٹھوایا۔ پھر خود اپنے ہاتھ سے پتھر کو اس کی جگہ رکھ دیا۔ سب راضی ہو گئے اور لڑائی ٹل گئی۔
+
+سبق: سچائی اور امانت داری سے انسان سب کا بھروسہ جیت لیتا ہے۔`,
+    ref:"سیرت النبی ﷺ"
+  },
+  {
+    emoji:'🕌', title:'حضرت بلال رضی اللہ عنہ کا صبر',
+    text:`حضرت بلال رضی اللہ عنہ ایک غلام تھے جنہوں نے اسلام قبول کیا۔ ان کا مالک امیہ بن خلف اس بات پر بہت ناراض ہوا اور انہیں سخت گرمی میں تپتی ریت پر لٹا کر ان کے سینے پر بھاری پتھر رکھ دیتا، تاکہ وہ اسلام چھوڑ دیں۔
+
+مگر حضرت بلال رضی اللہ عنہ اس تکلیف میں بھی بس ایک ہی بات کہتے رہتے: "احد، احد" (اللہ ایک ہے، اللہ ایک ہے) — وہ اپنے ایمان پر ڈٹے رہے۔
+
+حضرت ابوبکر رضی اللہ عنہ نے یہ حال دیکھا تو انہیں خرید کر آزاد کر دیا۔ بعد میں جب مدینہ میں پہلی اذان دینے کی بات آئی، تو نبی کریم ﷺ نے حضرت بلال رضی اللہ عنہ کو یہ اعزاز بخشا — وہ اسلام کے پہلے مؤذن بنے۔
+
+سبق: جو لوگ مشکل وقت میں بھی اپنے ایمان پر ثابت قدم رہتے ہیں، اللہ انہیں عزت سے نوازتا ہے۔`,
+    ref:"سیرت الصحابہ"
+  },
+  {
+    emoji:'🐜', title:'حضرت سلیمان علیہ السلام اور چیونٹی',
+    text:`حضرت سلیمان علیہ السلام کو اللہ تعالیٰ نے خاص طاقت دی تھی — وہ پرندوں اور جانوروں کی بات سمجھ سکتے تھے، اور ان کا ایک بہت بڑا لشکر تھا جس میں انسان، جن اور پرندے شامل تھے۔
+
+ایک دن یہ لشکر ایک وادی سے گزر رہا تھا جہاں چیونٹیاں رہتی تھیں۔ ایک چیونٹی نے باقی چیونٹیوں کو آواز دی: "اے چیونٹیو! اپنے بلوں میں چلی جاؤ، کہیں سلیمان اور ان کا لشکر انجانے میں تمہیں کچل نہ دے۔"
+
+حضرت سلیمان علیہ السلام نے یہ بات سن لی اور مسکرا دیے۔ انہوں نے فوراً لشکر کو روک دیا تاکہ چیونٹیوں کو کوئی نقصان نہ پہنچے۔ پھر انہوں نے اللہ کا شکر ادا کیا کہ اس نے انہیں ایسی نعمتیں عطا کیں۔
+
+سبق: اللہ کی ہر مخلوق — چاہے وہ کتنی ہی چھوٹی کیوں نہ ہو — اہم ہے، اور ہمیں سب جانداروں پر رحم کرنا چاہیے۔`,
+    ref:"النمل: ۱۸-۱۹"
+  },
+];
+
+function renderStoriesList(){
+  const list = document.getElementById('storiesList');
+  list.innerHTML = BEDTIME_STORIES.map((s,i) => `
+    <div class="story-card" data-idx="${i}">
+      <div class="sc-emoji">${s.emoji}</div>
+      <div class="sc-text">
+        <div class="sc-title">${s.title}</div>
+        <div class="sc-sub">${s.ref}</div>
+      </div>
+    </div>
+  `).join('');
+  list.querySelectorAll('.story-card').forEach(card=>{
+    card.addEventListener('click', ()=> showStoryDetail(parseInt(card.dataset.idx)));
+  });
+}
+
+function speakUrdu(text, btn){
+  if(!('speechSynthesis' in window)){
+    alert('Yeh device awaz mein parhne ko support nahi karta.');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'ur-PK';
+  utter.rate = 0.85;
+  if(btn){
+    btn.textContent = '⏸ رک جائیں...';
+    utter.onend = ()=>{ btn.textContent = '🔊 کہانی سنیں (Listen)'; };
+  }
+  window.speechSynthesis.speak(utter);
+}
+
+function showStoryDetail(idx){
+  const s = BEDTIME_STORIES[idx];
+  document.getElementById('storiesListWrap').style.display = 'none';
+  document.getElementById('storyDetailWrap').style.display = 'block';
+  document.getElementById('storyDetailCard').innerHTML = `
+    <div class="sd-title">${s.emoji} ${s.title}</div>
+    <button class="listen-btn" id="storyListenBtn" style="display:block;margin:0 auto 16px;">🔊 کہانی سنیں (Listen)</button>
+    <div class="sd-text">${s.text.replace(/\n\n/g,'<br><br>')}</div>
+  `;
+  document.getElementById('storyListenBtn').addEventListener('click', function(){
+    speakUrdu(s.text.replace(/\n/g,' '), this);
+  });
+}
+
+document.getElementById('backFromStoryDetail').addEventListener('click', ()=>{
+  window.speechSynthesis.cancel();
+  document.getElementById('storyDetailWrap').style.display = 'none';
+  document.getElementById('storiesListWrap').style.display = 'block';
+});
+
+renderStoriesList();
+
+/* ============================================================
+   DEEN STREAK
+   ============================================================ */
+const STREAK_DATES_KEY = 'deenaasan_streak_dates'; // array of 'YYYY-MM-DD'
+const STREAK_BEST_KEY = 'deenaasan_streak_best';
+
+function todayStr(){
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function dateStrDaysAgo(n){
+  const d = new Date();
+  d.setDate(d.getDate()-n);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function getStreakDates(){
+  try{ return JSON.parse(localStorage.getItem(STREAK_DATES_KEY) || '[]'); }
+  catch(e){ return []; }
+}
+function saveStreakDates(arr){
+  try{ localStorage.setItem(STREAK_DATES_KEY, JSON.stringify(arr)); }catch(e){}
+}
+function computeCurrentStreak(dates){
+  const set = new Set(dates);
+  let streak = 0;
+  let offset = 0;
+  if(set.has(todayStr())){
+    streak = 1;
+    offset = 1;
+    while(set.has(dateStrDaysAgo(offset))){ streak++; offset++; }
+  } else if(set.has(dateStrDaysAgo(1))){
+    streak = 1;
+    offset = 2;
+    while(set.has(dateStrDaysAgo(offset))){ streak++; offset++; }
+  }
+  return streak;
+}
+
+function renderStreak(){
+  const dates = getStreakDates();
+  const current = computeCurrentStreak(dates);
+  let best = parseInt(localStorage.getItem(STREAK_BEST_KEY) || '0');
+  if(current > best){
+    best = current;
+    try{ localStorage.setItem(STREAK_BEST_KEY, String(best)); }catch(e){}
+  }
+  document.getElementById('streakNum').textContent = current;
+  document.getElementById('streakBest').textContent = `بہترین تسلسل: ${best} دن`;
+
+  const set = new Set(dates);
+  const weekDayLabels = ['S','M','T','W','T','F','S'];
+  let weekHtml = '';
+  for(let i=6;i>=0;i--){
+    const ds = dateStrDaysAgo(i);
+    const d = new Date();
+    d.setDate(d.getDate()-i);
+    const isDone = set.has(ds);
+    weekHtml += `<div class="streak-day ${isDone?'done':''}">${isDone?'✓':d.getDate()}</div>`;
+  }
+  document.getElementById('streakWeek').innerHTML = weekHtml;
+
+  const markBtn = document.getElementById('markTodayBtn');
+  if(set.has(todayStr())){
+    markBtn.textContent = '✓ آج مکمل ہو چکا';
+    markBtn.disabled = true;
+  } else {
+    markBtn.textContent = 'آج کا عمل مکمل — Mark Today Done';
+    markBtn.disabled = false;
+  }
+}
+
+document.getElementById('markTodayBtn').addEventListener('click', ()=>{
+  const dates = getStreakDates();
+  const t = todayStr();
+  if(!dates.includes(t)){
+    dates.push(t);
+    saveStreakDates(dates);
+  }
+  renderStreak();
+});
+
+/* ============================================================
+   PARENT DASHBOARD
+   ============================================================ */
+function renderParentDashboard(){
+  const qazaCounts = getQazaCounts();
+  const qazaTotal = QAZA_PRAYERS.reduce((sum,p)=> sum + (qazaCounts[p.key]||0), 0);
+
+  let tasbeehTotal = 0;
+  getAddedTasbeehIds().forEach(id => { tasbeehTotal += getTasbeehCount(id); });
+
+  const nazraLearned = getNazraLearned().length;
+  const streakDates = getStreakDates();
+  const currentStreak = computeCurrentStreak(streakDates);
+
+  document.getElementById('parentGrid').innerHTML = `
+    <div class="parent-card">
+      <div class="pc-icon">🔤</div>
+      <div class="pc-num">${nazraLearned}/${NAZRA_LETTERS.length}</div>
+      <div class="pc-label">حروف سیکھے</div>
+    </div>
+    <div class="parent-card">
+      <div class="pc-icon">📿</div>
+      <div class="pc-num">${tasbeehTotal}</div>
+      <div class="pc-label">کل تسبیح</div>
+    </div>
+    <div class="parent-card">
+      <div class="pc-icon">🕌</div>
+      <div class="pc-num">${qazaTotal}</div>
+      <div class="pc-label">باقی قضا نمازیں</div>
+    </div>
+    <div class="parent-card">
+      <div class="pc-icon">🔥</div>
+      <div class="pc-num">${currentStreak}</div>
+      <div class="pc-label">دن کا تسلسل</div>
+    </div>
+  `;
+}
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('./service-worker.js').catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>
